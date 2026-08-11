@@ -583,9 +583,9 @@ Build and validate the **Supplier Delay** path of the **Order Management Workflo
 
 7. Scroll to the **Output** section and change the dropdown to **Structured output**. Add these three properties:
 
-   - `sku` (**string**) — *The SKU named in the delay notice*
-   - `stock` (**number**) — *Current stock quantity from the warehouse for the SKU named*
-   - `risk` (**boolean**) — *True if current stock is zero*
+   - `sku` (**Text**) — *The SKU named in the delay notice*
+   - `stock` (**Number**) — *Current stock quantity from the warehouse for the SKU named*
+   - `risk` (**Yes/No**) — *True if current stock is zero*
 
    ![The structured output configuration with sku stock and risk properties](images/supplier-delay-structured-output.png)
 
