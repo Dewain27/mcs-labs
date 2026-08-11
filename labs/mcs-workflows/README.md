@@ -313,7 +313,7 @@ Complete the setup of the **Order Management Workflow**: configure all solution 
    > [!WARNING]
    > Always sign in with your **lab account** when creating connections — not a personal or different work account. All connections in this workflow must use the same identity, or the workflow will fail at runtime with permissions errors.
 
-4. Navigate to the **Cloud Flow** object (the Order Management Workflow) inside the solution and select the flow. Choose **Set primary owner**, **remove the existing owner**, set yourself (your lab user) as the new owner, and select **Save**. A **green bar** should appear confirming the owner was successfully changed.
+4. Take ownership of the workflow via the **Power Platform Admin Center** ([admin.powerplatform.microsoft.com](https://admin.powerplatform.microsoft.com)) → **Environments** → your environment → **Flows**. Find the **Order Management Workflow** row, open **More flow actions (…)** → **Share**, add your **lab user** as a **co-owner**, and select **Save**. There is no **Set primary owner** control in the solution Cloud flows UI; publishing stays disabled until ownership is granted this way.
 
    > [!IMPORTANT]
    > Without the ownership change, publishing is **disabled by default**, so the workflow cannot be triggered end-to-end — you can still test individual nodes inside it, but no real incoming email will start a run. Once you own the workflow, the **Publish** button becomes available. Ownership must be transferred **after** the connection references are configured.
