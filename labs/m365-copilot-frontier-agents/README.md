@@ -134,14 +134,14 @@ Use the Researcher agent to perform two deep-analysis tasks on a complex PDF doc
 
 2. Navigate to [Microsoft 365 Copilot](https://m365.cloud.microsoft/chat/?auth=2&home=1).
 
-3. In the right-side panel or the main chat area, look for the **Researcher** agent. You can find it by:
+3. In the **left navigation pane**, look for the **Researcher** agent — Microsoft pins it there by default (it can't be unpinned). You can also find it by:
    - Selecting the agent picker (if available) and choosing **Researcher**
    - Or typing `@Researcher` in the chat input area
 
 > [!TIP]
 > The Researcher agent is one of Microsoft's **frontier agents** — purpose-built AI agents that use advanced reasoning models. Researcher excels at deep document analysis, cross-referencing multiple sections, and synthesizing complex information. It's available to users with a Microsoft 365 Copilot license.
 
-4. Upload the **Contoso_Grand_Hotel_Performance_Report.pdf** by selecting the attachment icon (paperclip) in the chat input area and choosing the file from your local machine.
+4. Upload the **Contoso_Grand_Hotel_Performance_Report.pdf** by selecting **Add and manage sources** (the **+** icon) in the chat input area, choosing **Upload images and files**, and selecting the file from your local machine.
 
 #### Prompt 1: Executive briefing with root-cause analysis
 
@@ -150,6 +150,9 @@ Use the Researcher agent to perform two deep-analysis tasks on a complex PDF doc
 ```text
 Create an executive briefing for the GM that summarizes the five most urgent operational issues, their root causes, financial impact, and recommended fixes — all sourced from this report.
 ```
+
+> [!NOTE]
+> Before it starts, the Researcher agent may ask a clarifying question and offer to **choose a report length** (e.g., Short or Long). Selecting a length alone does not begin generation — reply (for example, "go ahead") or answer its question to start the research. Researcher then shows a visible **Research Plan** and **Thought process** as it works.
 
 6. **Observe** how the Researcher agent:
    - Identifies issues across multiple sections (housekeeping, WiFi, HVAC, F&B margins, elevator maintenance)
@@ -237,7 +240,7 @@ Use the Analyst agent to perform a detailed ROI analysis with NPV, IRR, and disc
 > [!TIP]
 > The Analyst agent is another **frontier agent** in Microsoft 365 Copilot. While Researcher excels at reasoning and synthesis, Analyst is purpose-built for **data-heavy work** — extracting tables from documents, performing calculations, building models, generating visualizations, and producing structured outputs like Excel files. Think of Researcher as your strategic advisor and Analyst as your financial modeler.
 
-3. Upload the **Contoso_Grand_Hotel_Performance_Report.pdf** by selecting the attachment icon and choosing the same file you downloaded earlier.
+3. Upload the **Contoso_Grand_Hotel_Performance_Report.pdf** by selecting **Add and manage sources** (the **+** icon), choosing **Upload images and files**, and selecting the same file you downloaded earlier.
 
 > [!NOTE]
 > You're using the same PDF from Use Case #1, but with a completely different agent. This demonstrates how different frontier agents can extract different types of value from the same source document.
@@ -271,6 +274,9 @@ Present the results in a ranked table sorted by NPV (highest to lowest). Include
 
 > [!IMPORTANT]
 > The report only includes **simple payback periods** (which ignore the time value of money). The Analyst agent produces **NPV and IRR** — the gold-standard financial metrics that CFOs actually use to evaluate capital projects. This is a powerful example of how the Analyst agent can *elevate* analysis beyond the source material.
+
+> [!NOTE]
+> The Analyst runs real code to extract and model the data, so this can take a few minutes (often 40–50 reasoning steps). Its extraction is **non-deterministic**: occasionally it will try to OCR the PDF, report that it "can't read Section 16," and ask you to paste a screenshot or table. If that happens, **start a new Analyst chat, re-attach the PDF, and resend the prompt** — the recommendation data in Section 16 is machine-readable and the analysis normally succeeds on a retry.
 
 #### Explore follow-up analysis (optional)
 
