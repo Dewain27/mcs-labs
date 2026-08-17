@@ -62,8 +62,9 @@ In this lab you give both agents the same document — an annual hotel performan
 ## 📄 Documentation and Additional Training Links
 
 * [Microsoft 365 Copilot documentation](https://learn.microsoft.com/microsoft-365-copilot/)
-* [Researcher and Analyst agents](https://learn.microsoft.com/microsoft-365-copilot/extensibility/)
-* [Microsoft 365 Copilot Chat](https://learn.microsoft.com/microsoft-365-copilot/microsoft-365-copilot-chat)
+* [Get started with the Researcher agent](https://learn.microsoft.com/microsoft-365/copilot/researcher-agent)
+* [How Researcher and Analyst are deployed](https://learn.microsoft.com/microsoft-365/copilot/copilot-agent-install)
+* [Microsoft 365 Copilot Chat](https://learn.microsoft.com/copilot/overview)
 
 ---
 
@@ -128,13 +129,13 @@ Use the Researcher agent to perform two deep-analysis tasks on a complex PDF doc
    **[Download: Contoso Grand Hotel Performance Report](https://github.com/microsoft/mcs-labs/raw/main/labs/agent-builder-m365/Contoso_Grand_Hotel_Performance_Report.pdf)**
 
 > [!IMPORTANT]
-> Save this file to a location you can easily find (e.g., your Desktop or Downloads folder). You will need to upload it in the next step. This is a fictional ~20-page report containing tables, charts, financial data, and operational metrics across 18 sections.
+> Save this file to a location you can easily find (e.g., your Desktop or Downloads folder). You will need to upload it in the next step. This is a fictional ~39-page report containing tables, charts, financial data, and operational metrics across 18 sections.
 
 #### Open the Researcher agent
 
 2. Navigate to [Microsoft 365 Copilot](https://m365.cloud.microsoft/chat/?auth=2&home=1).
 
-3. In the **left navigation pane**, look for the **Researcher** agent — Microsoft pins it there by default (it can't be unpinned). You can also find it by:
+3. In the **left navigation pane**, look for the **Researcher** agent under **Agents** — Microsoft preinstalls and pre-pins it for every Microsoft 365 Copilot licensed user, though you can unpin it if you prefer. You can also find it by:
    - Selecting the agent picker (if available) and choosing **Researcher**
    - Or typing `@Researcher` in the chat input area
 
