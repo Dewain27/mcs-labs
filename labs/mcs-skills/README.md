@@ -8,7 +8,7 @@ Package a repeatable procedure as a Skill, then run that one Skill across a Copi
 
 | Level | Persona | Duration | Purpose |
 | ----- | ------- | -------- | ------- |
-| 300 | Maker | 30 minutes | After completing this lab, participants will be able to attach a Skill to an agent, call that agent from a workflow, install the same Skill as a plugin in Copilot Cowork, and explain how one authored Skill is reused across every surface. |
+| 300 | Maker | 60 minutes | After completing this lab, participants will be able to attach a Skill to an agent, call that agent from a workflow, install the same Skill as a plugin in Copilot Cowork, and explain how one authored Skill is reused across every surface. |
 
 ---
 
