@@ -95,7 +95,7 @@ In the final use case you build a second agent in a completely different industr
 
 ## ✅ Prerequisites
 
-- Access to Microsoft Copilot Studio with the **New experience** enabled
+- Access to Microsoft Copilot Studio in the new experience (the default; if you see the classic UI, switch back from the classic header)
 - A Power Platform environment where you can create agents and add tools
 - The four lab MCP servers imported into your environment: **Asset Telemetry MCP**, **Work Orders MCP**, **Policy Lookup MCP**, **Claims History MCP**
 - Four knowledge documents uploaded to SharePoint under **OnePlace → Documents**, in folders named **Energy Ops** and **Claims Ops**
@@ -564,7 +564,7 @@ You now know the shape: name, instructions, knowledge, tools. This time it shoul
     > [!IMPORTANT]
     > **Do not skip the authentication step.** The tool defaults to **User** authentication, and if you leave it there the agent stops mid-task with a *"Connection Required — this action requires a connection to shared_msnweather"* card the first time it reaches for weather.
     >
-    > The rule is about *whose identity the tool should act as*. MSN Weather authenticates anonymously, so it should run as the **maker** — your connection is reused for every end user and nobody is prompted. The same applies to any connector using a shared API key or service account. Tools that act *as the signed-in user* — a mailbox, a files connector — keep **User**.
+    > The rule is about *whose identity the tool should act as*. MSN Weather authenticates anonymously, so it should use **Shared account** — your connection is reused for every end user and nobody is prompted. The same applies to any connector using a shared API key or service account. Tools that act *as the signed-in user* — a mailbox, a files connector — keep **End user account**.
 
 1. Select **Save**.
 
@@ -653,7 +653,7 @@ You now know the shape: name, instructions, knowledge, tools. This time it shoul
 
 * Why is the Skill's **description** written in a caller's vocabulary rather than a procedure's?
 * Why did the coverage question not load the Skill, when both questions are about the same policy form?
-* The MSN Weather tool needed **Maker** authentication. What rule decides that, and which tools would keep **User**?
+* The MSN Weather tool needed **Shared account** authentication. What rule decides that, and which tools would keep **End user account**?
 
 ---
 
@@ -677,7 +677,7 @@ You built two agents in two industries on the same harness, and in both cases th
 * **Keep instructions about scope and relationships, not procedure.** The line that made the energy agent useful was the one saying a reading only becomes actionable when compared against a limit and a policy — it described how the sources relate, and the loop worked out the rest.
 * **State hard rules in more than one place.** The work-order guardrail held under pressure because it was in the instructions *and* in the grounding. Rules that matter should be discoverable from the agent's sources, not just asserted in its prompt.
 * **Write tool errors for an agent, not a log file.** "Maximum query window is 90 days. Narrow the range and retry." is recoverable. "500 Internal Server Error" is not.
-* **Set authentication by whose identity the tool acts as.** Anonymous, API-key and service-account tools belong on **Maker**. Tools acting for the signed-in user keep **User**. Getting this wrong surfaces as a connection card mid-task.
+* **Set authentication by whose identity the tool acts as.** Anonymous, API-key and service-account tools belong on **Shared account**. Tools acting for the signed-in user keep **End user account**. Getting this wrong surfaces as a connection card mid-task.
 * **Reach for a Skill when a procedure is real, repeatable and occasional.** If it applies to every turn it belongs in instructions; if it is a fact it belongs in knowledge; if it is a numbered process that fires sometimes, it is a Skill.
 * **Read the trace before changing anything.** Most "the agent is wrong" reports are a description problem, and the trace will show you which one.
 
