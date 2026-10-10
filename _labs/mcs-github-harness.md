@@ -59,13 +59,13 @@ But a loop is only as good as what you put inside it. The harness exposes a **co
 - "My instructions have grown into a wall of text that applies to every conversation"
 - "I don't know when to use knowledge versus a tool"
 
-**Pairs with:** Module 10 — Dedicated: GitHub Copilot harness — Component Model.
+**Pairs with:** the GitHub Copilot Harness — Component Model module.
 
 ---
 
 ## 🌐 Introduction
 
-This is the hands-on companion to **Module 10**, and the longest lab of the bootcamp — deliberately, because this is the harness the rest of the week assumes.
+This is the hands-on companion to the **GitHub Copilot Harness — Component Model** module, and it goes deep deliberately, because this is the harness the rest of the event assumes.
 
 You build an agent from nothing for **Northgate Energy**, an operator investigating an underperforming wind turbine. You give it two knowledge documents — a manufacturer manual and the operator's own dispatch standards — and two MCP tools that read live telemetry and maintenance records. Then you stop telling it what to use and start watching it choose.
 
@@ -102,8 +102,8 @@ In the final use case you build a second agent in a completely different industr
 ## 📄 Documentation and Additional Training Links
 
 * [Copilot Studio documentation](https://learn.microsoft.com/microsoft-copilot-studio/)
-* [Add knowledge to an agent](https://learn.microsoft.com/microsoft-copilot-studio/knowledge-add-existing-copilot)
-* [Extend agents with Model Context Protocol](https://learn.microsoft.com/microsoft-copilot-studio/agent-extend-action-mcp)
+* [Add knowledge to an agent](https://learn.microsoft.com/microsoft-copilot-studio/agents-experience/knowledge-copilot-studio)
+* [Extend agents with tools, including MCP servers](https://learn.microsoft.com/microsoft-copilot-studio/agents-experience/tools-overview)
 * [Connect to data with connectors](https://learn.microsoft.com/connectors/)
 
 ---
@@ -136,7 +136,7 @@ In many delivery tenants the four solutions are already provisioned with the env
 
 1. Select **Solutions** in the left navigation.
 
-1. Look for all four display names. Sort by **Created** to bring recent imports to the top.
+1. Look for all four display names. Sort by **Created** to bring recent imports to the top. Match on **Display name** and **Version**. In some delivery tenants the pre-loaded copies have a different unique name (for example `DciAssetTelemetryMCP`). They contain the same connector, so treat them as present.
 
     ![The Solutions list with the four lab MCP solutions present](images/prereq-solutions-list.png)
 
@@ -161,7 +161,7 @@ In many delivery tenants the four solutions are already provisioned with the env
 
 Do this once per missing solution. Each import takes a minute or two.
 
-1. Download the `.zip` from [`assets/mcp-servers`](https://github.com/microsoft/mcs-labs/tree/main/labs/mcs-github-harness/assets/mcp-servers). Use the **raw** file — GitHub's file view will not give you a usable archive, and a `.zip` that your browser has helpfully unpacked will not import.
+1. Download the `.zip` from [`assets/mcp-servers`](https://github.com/microsoft/mcs-labs/tree/main/labs/mcs-github-harness/assets/mcp-servers). Select the package you need (or use the per-file links in the table above), then select **Download raw file**. GitHub's rendered file view will not give you a usable archive, and a `.zip` that your browser has helpfully unpacked will not import.
 
 1. In [make.powerapps.com](https://make.powerapps.com), confirm the environment picker, then select **Solutions → Import solution**.
 
@@ -250,14 +250,14 @@ Create a new-type agent, write instructions that establish scope rather than scr
 
 #### Create the agent
 
-1. In Copilot Studio, confirm the **New experience** toggle in the top right is **on** — it is by default.
+1. Open Copilot Studio. You should see the new experience by default: the **Home** page offers **Agent**, **Workflow** and **App** cards marked **GitHub Copilot**. If you see the classic UI instead, switch back to the new one from the classic header.
 
 1. Select **Agents** in the left navigation, then **New agent** in the upper right. Selecting **New agent** creates an agent on the **GitHub Copilot harness**.
 
     ![The new agent designer, before anything is configured](images/uc1-agent-designer-blank.png)
 
     > [!NOTE]
-    > The **More create options** dropdown also offers **Build using standard orchestration** — that is the rule-based classic agent, and you do **not** want it here. Everything in this lab depends on the agent loop, which only the default option gives you.
+    > The **More create options** dropdown also offers **Agent — Standard** (under **Other ways to build**) — that is the rule-based classic agent, and you do **not** want it here. Everything in this lab depends on the agent loop, which only the default option gives you.
 
 1. Name the agent:
 
@@ -288,9 +288,9 @@ Create a new-type agent, write instructions that establish scope rather than scr
 
 #### Walk the component rail
 
-1. Look down the right-hand rail. Every component from Module 10 is here: **Model**, **Skills**, **Tools**, **Knowledge**, **Connected agents** and **Memory**. This rail is the component model made concrete — the design question for any agent is which of these carries which job.
+1. Look down the right-hand rail. Every component from the module is here: **Model**, **Skills**, **Tools**, **Knowledge**, **Connected agents** and **Memory**. This rail is the component model made concrete — the design question for any agent is which of these carries which job.
 
-1. Turn **Memory** on using the toggle at the bottom of the rail.
+1. Turn **Memory** on using the toggle at the bottom of the rail, then select **Save**.
 
     ![Memory enabled in the component rail](images/uc1-memory-enabled.png)
 
@@ -574,7 +574,7 @@ You now know the shape: name, instructions, knowledge, tools. This time it shoul
     > [!WARNING]
     > Search results include **Ambee**'s similarly-named *Get current weather by geospatial search*, which may sort **above** the one you want depending on what you type. Result ordering is not stable — check the publisher heading and pick the action under **MSN Weather**. If you select the wrong one, remove it from the rail and add the right one; the agent will otherwise stall on a connector you have no connection for.
 
-1. Open the **Get current weather** tool, set **Authentication mode** to **Maker**, then **Not connected → Create new connection → Create**, and **Done**.
+1. Open the **Get current weather** tool, set **Authentication** to **Shared account** (the maker's connection, reused for every user; the default **End user account** is the per-user option), then **Not connected → Create new connection → Create**, and **Done**.
 
     > [!IMPORTANT]
     > **Do not skip the authentication step.** The tool defaults to **User** authentication, and if you leave it there the agent stops mid-task with a *"Connection Required — this action requires a connection to shared_msnweather"* card the first time it reaches for weather.
