@@ -121,7 +121,7 @@ In many delivery tenants the four solutions are already provisioned with the env
 
 1. Select **Solutions** in the left navigation.
 
-1. Look for all four display names. Sort by **Created** to bring recent imports to the top. Match on **Display name** and **Version**. In some delivery tenants the pre-loaded copies have a different unique name (for example `DciAssetTelemetryMCP`). They contain the same connector, so treat them as present.
+1. Look for all four display names. Sort by **Created** to bring recent imports to the top. Match on **Display name**, **Version** and **Name** (the unique name in the table below). In some delivery tenants the pre-loaded copies have a different unique name (for example `DciAssetTelemetryMCP`), and those builds do not always expose the same tools as the lab packages. A pre-loaded **Asset Telemetry MCP** has been seen without `query_telemetry`, which Use Case #3 depends on. If a unique name does not match the table, confirm that server's tool list (see the TIP below) before you count it as present.
 
     ![The Solutions list with the four lab MCP solutions present](images/prereq-solutions-list.png)
 
@@ -132,12 +132,12 @@ In many delivery tenants the four solutions are already provisioned with the env
     | Policy Lookup MCP | `MeridianMutualPolicyLookupMCP` | 1.0.0.1 |
     | Claims History MCP | `MeridianMutualClaimsHistoryMCP` | 1.0.0.1 |
 
-1. **All four present?** You are done — skip the import below.
+1. **All four present** (unique name matches the table, or the tool list is confirmed)? You are done — skip the import below.
 
     **Any missing?** Import just the missing ones using the procedure below.
 
     > [!TIP]
-    > There is a faster smoke test if you only want to know whether the agent will find them: in Copilot Studio, open any agent, select **Tools → + Add a tool**, and search for `MCP`. The four servers appear in the results if they are loaded. The Solutions list is still the authoritative check, because it also shows you the **version**.
+    > There is a faster smoke test if you only want to know whether the agent will find them: in Copilot Studio, open any agent, select **Tools → + Add a tool**, and search for `MCP`. The four servers appear in the results if they are loaded. The Solutions list is still the authoritative check, because it also shows you the **version** and unique name. To confirm a server's tools, add it to an agent, select it under **Tools**, and check that **Tool permissions** lists every tool in the table above. For **Asset Telemetry MCP** that means *List assets*, *Get asset status* **and** *Query telemetry*. If a tool is missing, import that server's package from this lab, even though a solution with the same display name and version is already there.
 
     > [!NOTE]
     > **First visit to make.powerapps.com?** A **Choose your country/region** dialog can appear over the page and blocks the Solutions list behind it. Pick a region and select **Get started** to clear it.
@@ -349,6 +349,9 @@ Attach knowledge and tools, then observe the orchestrator selecting sources on i
 
 Send these three prompts in order. Do not tell the agent which source to use — the entire point is to watch it decide.
 
+> [!NOTE]
+> A new agent comes with a default **Search all websites** knowledge source. Before you start, select **Knowledge** in the rail and remove it, then **Save**. This lab's companies and data are fictional, so web results can only add noise to the answers.
+
 1. **A question only the documents can answer.**
 
     ```text
@@ -368,7 +371,7 @@ Send these three prompts in order. Do not tell the agent which source to use —
     Which turbines at Cascade Ridge are alarming right now?
     ```
 
-    The agent calls **`list_assets`** and reports that **WTG-114** is the only alarming unit. Then watch what it does next.
+    The agent calls **`list_assets`** (shown in the trace as **Used tool: List turbines at a site**) and reports that **WTG-114** is the only alarming unit. Then watch what it does next.
 
     ![The agent calling a tool, then pulling in both documents to interpret the reading](images/uc2-prompt2-tool-plus-knowledge.png)
 
@@ -386,7 +389,7 @@ Send these three prompts in order. Do not tell the agent which source to use —
     What maintenance is already open on WTG-114?
     ```
 
-    The agent calls **`list_work_orders`** and finds **WO-00001**, open since March.
+    The agent calls **`list_work_orders`** (shown in the trace as **List work orders for a turbine**) and finds **WO-00001**, open since March. If it already listed work orders during the previous prompt, it may call `get_work_order` instead.
 
     ![The agent reporting the open work order and flagging its contents](images/uc2-prompt3-work-orders.png)
 
@@ -401,14 +404,17 @@ Send these three prompts in order. Do not tell the agent which source to use —
     That work order clearly won't fix it. Sort it out for me.
     ```
 
-    It declines.
+    It should decline.
 
     ![The agent declining to raise work and offering an evidence package instead](images/uc2-prompt4-guardrail-declines.png)
 
     > [!IMPORTANT]
-    > The agent judged that *"sort it out for me"* is **too vague to count as explicit authorization**, cited the standards document by section, pulled the trend data to support the case, and handed back an evidence package for a human to act on.
+    > When it declines, the agent has judged that *"sort it out for me"* is **too vague to count as explicit authorization**, cited the standards document by section, pulled the trend data to support the case, and handed back an evidence package for a human to act on.
     >
     > Two different things held here. Your **instruction** said never raise work uninvited. The **knowledge document** independently says work orders are raised by a named person and never by an automated system. When a rule appears in both the instructions and the grounding, the agent has two reasons to respect it — which is far more robust than either alone.
+
+    > [!CAUTION]
+    > **This result can vary between runs.** If the agent offered in the previous turn to raise a work order (for example *"tell me the priority and I'll create it"*), it may read *"Sort it out for me"* as accepting that offer and call `create_work_order`. If that happens, expand the trace and read its reasoning: it treated its own offer as the request. The work order exists only in the lab's synthetic data, so nothing needs cleaning up. Use it as the discussion point — a guardrail that depends on the model judging what counts as "explicit" is weaker than one with a concrete test.
 
 ---
 
@@ -449,6 +455,9 @@ Observe the loop recovering from a failed tool call, and using the Agent Sandbox
     ```
 
 1. Expand the trace and read what happens.
+
+    > [!WARNING]
+    > If the agent replies that it has no history tool, your environment has an Asset Telemetry MCP build without `query_telemetry`. In **Build → Tools**, select **Asset Telemetry MCP**. The **Tool permissions** list must show three tools: *List assets*, *Get asset status* and *Query telemetry*. If only two appear, import `NorthgateEnergyAssetTelemetryMCP_1_0_0_1.zip` from `assets/mcp-servers`, remove the tool from the agent and add it again, then start a **New chat** in Preview.
 
     ![The agent recovering from a range_too_large error by splitting the window](images/uc3-error-recovery.png)
 
@@ -562,7 +571,7 @@ You now know the shape: name, instructions, knowledge, tools. This time it shoul
 1. Open the **Get current weather** tool, set **Authentication** to **Shared account** (the maker's connection, reused for every user; the default **End user account** is the per-user option), then **Not connected → Create new connection → Create**, and **Done**.
 
     > [!IMPORTANT]
-    > **Do not skip the authentication step.** The tool defaults to **User** authentication, and if you leave it there the agent stops mid-task with a *"Connection Required — this action requires a connection to shared_msnweather"* card the first time it reaches for weather.
+    > **Do not skip the authentication step.** The tool defaults to **End user account** authentication, and if you leave it there the agent stops mid-task with a *"Connection Required — this action requires a connection to shared_msnweather"* card the first time it reaches for weather.
     >
     > The rule is about *whose identity the tool should act as*. MSN Weather authenticates anonymously, so it should use **Shared account** — your connection is reused for every end user and nobody is prompted. The same applies to any connector using a shared API key or service account. Tools that act *as the signed-in user* — a mailbox, a files connector — keep **End user account**.
 
@@ -609,6 +618,9 @@ You now know the shape: name, instructions, knowledge, tools. This time it shoul
 
 #### Prove it loads only when relevant
 
+> [!NOTE]
+> Before you test, select **Knowledge** in the rail and remove the default **Search all websites** source if it is still there, then **Save**. Otherwise, in the hail scenario below, the agent may search real-world hail reports for this fictional loss, mark the weather check as *not corroborated* and recommend a fraud referral, instead of recording it as *inconclusive*.
+
 1. Open **Preview** and ask a question about coverage — no loss reported:
 
     ```text
@@ -631,7 +643,7 @@ You now know the shape: name, instructions, knowledge, tools. This time it shoul
     ![The FNOL skill loading and running its full procedure](images/uc4-skill-fires-fnol.png)
 
     > [!IMPORTANT]
-    > This time the trace opens with the agent recognising the request as an intake case, followed by **`Loading skill: fnol-intake`**. The procedure then runs end to end: `find_policy`, weather, `list_claims`, and both knowledge documents — producing a structured intake summary with the policy confirmed in force on the date of loss, the peril mapped, and the **$2,500 wind/hail deductible** named.
+    > This time the trace opens with the agent recognising the request as an intake case, followed by **`Using skill: fnol-intake`**. The procedure then runs end to end: `find_policy`, weather, `list_claims`, and both knowledge documents — producing a structured intake summary with the policy confirmed in force on the date of loss, the peril mapped, and the **$2,500 wind/hail deductible** named.
 
     > [!TIP]
     > Two details worth reading closely.
