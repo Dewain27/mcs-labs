@@ -568,7 +568,7 @@ You now know the shape: name, instructions, knowledge, tools. This time it shoul
     > [!WARNING]
     > Search results include **Ambee**'s similarly-named *Get current weather by geospatial search*, which may sort **above** the one you want depending on what you type. Result ordering is not stable — check the publisher heading and pick the action under **MSN Weather**. If you select the wrong one, remove it from the rail and add the right one; the agent will otherwise stall on a connector you have no connection for.
 
-1. Open the **Get current weather** tool, set **Authentication** to **Shared account** (the maker's connection, reused for every user; the default **End user account** is the per-user option), then **Not connected → Create new connection → Create**, and **Done**.
+1. Open the **Get current weather** tool, set **Authentication** to **Shared account** (the maker's connection, reused for every user; the default **End user account** is the per-user option). If **Connection** shows **Not connected**, select **Create new connection → Create**; if an **MSN Weather** connection already exists, it is selected for you. Then select **Done**.
 
     > [!IMPORTANT]
     > **Do not skip the authentication step.** The tool defaults to **End user account** authentication, and if you leave it there the agent stops mid-task with a *"Connection Required — this action requires a connection to shared_msnweather"* card the first time it reaches for weather.
