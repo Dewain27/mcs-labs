@@ -32,7 +32,7 @@ Delegate real work to Copilot Cowork — hand it a document, let it reason over 
 
 **Chat answers you. Cowork does the work.**
 
-Everything up to this point in the bootcamp has been conversational — you ask, it responds, you act on the response. Cowork breaks that pattern. You delegate an outcome, it works through the steps, and it hands you back something finished for review.
+Everything you have done up to this point has been conversational — you ask, it responds, you act on the response. Cowork breaks that pattern. You delegate an outcome, it works through the steps, and it hands you back something finished for review.
 
 That shift is the whole point, and it is the one most people miss on first contact. The measure of a Cowork task is not how good the reply reads; it is whether the thing you asked for actually got done.
 
@@ -42,7 +42,7 @@ That shift is the whole point, and it is the one most people miss on first conta
 
 Copilot Cowork takes a delegated task and works it agentically: reading source material, resolving who and what it needs from your organisation, and producing real output in Microsoft 365 — a drafted email, a document, a set of updates — for you to review before anything is sent.
 
-In this lab you hand Cowork the same annual hotel performance report used elsewhere in the bootcamp, ask it to brief a named colleague on the most urgent operational issues, and then verify that a genuine Outlook draft was created.
+In this lab you hand Cowork the same annual hotel performance report used in the Researcher exercise, ask it to brief a named colleague on the most urgent operational issues, and then verify that a genuine Outlook draft was created.
 
 ---
 
@@ -62,7 +62,8 @@ In this lab you hand Cowork the same annual hotel performance report used elsewh
 ## 📄 Documentation and Additional Training Links
 
 * [Microsoft 365 Copilot documentation](https://learn.microsoft.com/microsoft-365-copilot/)
-* [Microsoft 365 Copilot overview](https://learn.microsoft.com/copilot/overview)
+* [Microsoft Copilot Chat overview](https://learn.microsoft.com/copilot/overview)
+* [Copilot Cowork overview](https://learn.microsoft.com/microsoft-365/copilot/cowork/)
 
 ---
 
@@ -72,7 +73,8 @@ In this lab you hand Cowork the same annual hotel performance report used elsewh
 - Access to Copilot Cowork
 - Outlook available to the same account, so the drafted email can be verified
 - Download the sample report PDF: [Contoso Grand Hotel Performance Report](https://github.com/microsoft/mcs-labs/raw/main/labs/agent-builder-m365/Contoso_Grand_Hotel_Performance_Report.pdf)
-- For Use Case #2: a sales tracker Excel workbook in a SharePoint document library the account can reach, with columns covering month, region, product line, and sales rep — the reference tenant uses `Sales.xlsx` in the `Sales Lab1b` document library — and a colleague named Dewain Robinson who resolves in the tenant directory
+- For Use Case #2: a sales tracker Excel workbook in a SharePoint document library the account can reach, with columns covering month, region, product line, and sales rep — the reference tenant uses `Sales.xlsx` in the `Sales` folder of the OnePlace site's `Documents` library
+- For Use Cases #1 and #2: a colleague named Dewain Robinson who resolves in the tenant directory (the email recipient in both use cases)
 - For Use Case #3: Planner available to the same account, and the ability to grant Microsoft Graph consent when Cowork prompts for it. Use Case #3 continues the Use Case #2 session, so run them in order
 
 ---
@@ -132,7 +134,7 @@ Use the Cowork agent to read the [same PDF report](https://github.com/microsoft/
 
 #### Open the Cowork agent
 
-1. From the same Microsoft 365 Copilot page (`https://m365.cloud.microsoft/chat/?auth=2&home=1`), select **Cowork** on the **Chat / Cowork** toggle at the top of the Copilot panel.
+1. From the same Microsoft 365 Copilot page (`https://office.com/chat`), select **Cowork** on the **Chat / Cowork** toggle at the top of the left navigation pane (just below the Copilot logo).
 
    ![The Cowork surface in Microsoft 365 Copilot](images/cowork-landing.png)
 
@@ -249,14 +251,14 @@ Have Cowork find the sales tracker workbook in SharePoint without you naming its
 
 #### Open the Cowork agent
 
-1. From the Microsoft 365 Copilot page, select **Cowork** on the **Chat / Cowork** toggle at the top of the Copilot panel.
+1. From the Microsoft 365 Copilot page, select **Cowork** on the **Chat / Cowork** toggle at the top of the left navigation pane (just below the Copilot logo).
 
 1. Select **New Task** to start a fresh Cowork session, so this use case doesn't continue the conversation from Use Case #1.
 
-1. Open the model picker at the top of the panel (it reads **Auto** by default), choose **Claude**, then **Opus 5**.
+1. Open the model picker in the message box, next to the **+** button (it reads **Auto** by default), choose **Claude**, then **Opus 5.5**.
 
    > [!IMPORTANT]
-   > Cowork writes the dashboard code itself, so the model you pick changes what you get. On **Opus 5** the dashboard comes back with cross-filtering charts and a detail table, as described below. On **Auto** the same prompt has produced a filters-only dashboard with no table. Pick Opus 5 so your result matches the lab.
+   > Cowork writes the dashboard code itself, so the model you pick changes what you get. On **Opus 5.5** the dashboard comes back with cross-filtering charts and a detail table, as described below. On **Auto** the same prompt has produced a filters-only dashboard with no table. Pick Opus 5.5 so your result matches the lab.
 
 1. Paste the following prompt into the message input and press **Send**:
 
@@ -289,7 +291,7 @@ Have Cowork find the sales tracker workbook in SharePoint without you naming its
    > Cowork designs this dashboard from scratch each run, so the exact layout, chart types and tile set will differ from the screenshot. Filters and charts are reliably there; extras such as a records tile or a second summary table come and go.
 
    > [!TIP]
-   > Read the line under the dashboard title — it cites its own source, along the lines of *"Source: Sales.xlsx · Sales Lab1b document library · Jul 2023 – Jun 2025."* That is the fastest confirmation that Cowork found the right workbook and read all of it, and you never have to leave the panel to check.
+   > Read the line under the dashboard title — it cites its own source, along the lines of *"Source: Sales.xlsx (OnePlace › Documents › Sales) · July 2023 – June 2025"* (the site and library names depend on your tenant). That is the fastest confirmation that Cowork found the right workbook and read all of it, and you never have to leave the panel to check.
 
 #### Verify the draft in Outlook
 
@@ -388,7 +390,7 @@ Resume the previous Cowork session, have Cowork create a Home Appliance campaign
 
 #### Review the tasks in Planner
 
-1. Open the app launcher (the 3×3 "waffle" icon at the top-left), choose **More apps**, then select **Planner**. Planner opens in a new window.
+1. Open the app launcher (the 3×3 "waffle" icon at the top-left), choose **More apps**, then select **Planner** on the Apps page. Planner opens inside the Microsoft 365 Copilot app, in the same tab, so use the **Cowork** tab on the left to get back to your session afterwards.
 
 1. Select **My plans**, then open the plan Cowork created — its name combines the campaign with your username. **Observe** the tasks it wrote: phase buckets and due dates working back from the launch. Switch to the **Grid** view to see the whole plan at once.
 
@@ -464,4 +466,4 @@ Resume the previous Cowork session, have Cowork create a Home Appliance campaign
 
 **Know which actions have a draft stage and which don't.** Where one exists, it is your control and you should use it. Where it doesn't — Planner, and anything else written straight into a system other people share — the consent prompt is the only checkpoint you get, and "always allow" spends it once on behalf of every run that follows. Scope what you delegate accordingly.
 
-**Position it against the alternatives.** Chat answers, Cowork acts, and a custom agent encodes a repeatable process you own. Those three sit side by side, and picking correctly is the design skill this bootcamp is teaching.
+**Position it against the alternatives.** Chat answers, Cowork acts, and a custom agent encodes a repeatable process you own. Those three sit side by side, and picking correctly is the design skill these labs are teaching.
