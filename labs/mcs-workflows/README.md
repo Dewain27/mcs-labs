@@ -92,7 +92,7 @@ This example is covered in **Use Case 1** of this lab. It establishes the founda
 - Permission to create connections for the services used across the lab: **Microsoft To-Do (Business)**, **Office 365 Outlook**, **Work IQ Mail**, **Microsoft Dataverse / Dataverse MCP**, Human Review, and **Microsoft 365 Copilot**.
 - The **Dataverse connection reference** in the pre-loaded **LAB: Account Lookup Agent** solution repointed to a connection you own — see [Dataverse connection reference — do this first](#dataverse-connection-reference--do-this-first). **Every Dataverse tool in this lab fails silently without it.**
 - Basic familiarity with the Copilot Studio interface.
-- The **Warehouse MCP** custom MCP server imported into your environment — see [Custom MCP servers](#custom-mcp-servers) below. **Use Case #4 cannot be completed without it.**
+- A warehouse custom MCP server in your environment: **Warehouse MCP** (imported from this lab's package) or the pre-provisioned **Warehouse and Fulfillment MCP** — see [Custom MCP servers](#custom-mcp-servers) below. **Use Case #4 cannot be completed without it.**
 - The **LAB: Order Management Workflows** solution **imported by you** — your environment does not ship with it, and you must own the workflow to publish it. See [The Order Management solution](#the-order-management-solution) below. **Use Cases #2–#5 fail without this.**
 
 > [!IMPORTANT]
@@ -107,7 +107,7 @@ This example is covered in **Use Case 1** of this lab. It establishes the founda
 
 1. Go to [make.powerapps.com](https://make.powerapps.com) and confirm the **environment picker** in the top right names your **DEV - User <your ID>** environment.
 
-1. Select **Solutions**, open **LAB: Account Lookup Agent**, then select **Connection references** in the left pane. There is exactly one, named `copilots_header_cref7_LookupDataAgent.shared_commondataserviceforapps.…`. Note its **Owner** — it will not be you.
+1. Select **Solutions**, open **LAB: Account Lookup Agent**, then select **Objects** and, in the object-type list, **Connection references**. There is exactly one, named `copilots_header_cref7_LookupDataAgent.shared_commondataserviceforapps.…`. Note its **Owner** — it will not be you.
 
 1. Tick the row's checkbox and choose **Edit** on the command bar.
 
@@ -206,20 +206,20 @@ It ships with this lab as an unmanaged Dataverse solution under [`assets/mcp-ser
 Both servers run inline inside the connector as a C# script, over mock data for a fictional retailer. Nothing in them reaches a real system. This lab calls only **Warehouse MCP** — specifically the restock-date lookup in Use Case #4 — but the two connectors ship together in one solution and importing both is harmless.
 
 > [!NOTE]
-> The **Microsoft Dataverse MCP Server**, also used in Use Case #4, is first-party and needs no import — it appears in the **Model Context Protocol** tool list on its own. **Warehouse MCP** is the only server you have to provision.
+> The **Microsoft Dataverse MCP Server**, also used in Use Case #4, is first-party and needs no import — it appears on the **MCP** tab of the tool picker on its own. **Warehouse MCP** is the only server you have to provision.
 
 ##### Check whether it is already loaded
 
-Most delivery tenants ship this solution pre-provisioned. Check before importing — a duplicate import is not harmful, but it wastes lab time.
+Many delivery tenants ship a warehouse MCP server pre-provisioned: either this solution, or a separate **Warehouse and Fulfillment MCP** solution (unique name `DciWarehouseMCP`). Check before importing. A duplicate import wastes lab time and leaves two warehouse servers in the tool picker and two **Order Management MCP** custom connectors.
 
 1. Go to [make.powerapps.com](https://make.powerapps.com) and confirm the **environment picker** in the top right names the same environment you are building the workflow in. A mismatch here is the usual cause of "the tool is not in the list".
 
-1. Select **Solutions** in the left navigation and look for **Enhanced Task Completion** (unique name `EnhancedTaskCompletion`, version 1.0.0.2). Sort by **Created** to bring recent imports to the top.
+1. Select **Solutions** in the left navigation and look for **Enhanced Task Completion** (unique name `EnhancedTaskCompletion`, version 1.0.0.2) **or** **Warehouse and Fulfillment MCP** (unique name `DciWarehouseMCP`). Sort by **Created** to bring recent imports to the top.
 
-1. **Present?** You are done — skip the import below. **Missing?** Import it.
+1. **Either one present?** You are done — skip the import below. **Both missing?** Import Enhanced Task Completion.
 
     > [!TIP]
-    > Faster smoke test if you only want to know whether the agent will find it: in Copilot Studio open any Agent node, select **Tools → + Add tool**, filter to **Model Context Protocol (MCP)**, and look for **Warehouse MCP**. The Solutions list is still the authoritative check, because it also shows you the version.
+    > Faster smoke test if you only want to know whether the agent will find it: in Copilot Studio open any Agent node, select **Tools → + Add tool**, open the **MCP** tab, search for **Warehouse**, and look for **Warehouse MCP** (from this package) or **Warehouse and Fulfillment MCP** (pre-provisioned in some tenants). The Solutions list is still the authoritative check, because it also shows you the version.
 
     > [!NOTE]
     > **First visit to make.powerapps.com on a fresh lab account?** A **Choose your country/region** dialog opens over the page and hides the Solutions list behind it. Pick a region and select **Get started** to clear it.
@@ -232,13 +232,13 @@ Most delivery tenants ship this solution pre-provisioned. Check before importing
 
 1. Select **Browse**, choose the `.zip`, then **Next**, then **Import**. The import runs in the background and reports success or failure in a banner when it finishes.
 
-1. Select **Custom connectors** in the left navigation. For **each** MCP connector, select **Create connection** — no credentials are needed, just select **Create**.
+1. Select **More** > **Discover all** in the left navigation, then **Custom connectors** (under **Data**). For **each** MCP connector published by you (**Warehouse MCP** and **Order Management MCP**), select **Create connection** — no credentials are needed, just select **Create**. Power Apps opens the **Connections** page afterwards; go back to **Custom connectors** for the second one.
 
     > [!IMPORTANT]
     > This is an **unmanaged** solution published by *CAT*. Import it into a development or training environment — not production.
 
     > [!TIP]
-    > If **Warehouse MCP** still does not appear in Copilot Studio's tool picker after a successful import, select **Publish all customizations** on the Solutions page and search again.
+    > If **Warehouse MCP** still does not appear on the **MCP** tab of Copilot Studio's tool picker after a successful import, select **Publish all customizations** on the Solutions page and search again.
 
 The solution comes from the [Enhanced Task Completion sample](https://github.com/microsoft/new-copilot-studio-tech-guide/tree/main/sample/archive). It also carries two demo agents alongside the connectors; this lab does not use them.
 
@@ -301,7 +301,7 @@ Create and publish the **To Do Time Block** Workflow: a To Do trigger feeds a ne
 
 #### Create the workflow and configure its trigger
 
-2. In **Copilot Studio**, make sure you're in the right environment, then on the **Home** page select **Workflow** (*Automate business processes with agents and actions*). Rename the workflow from **Untitled Workflow** to **To Do Time Block** by selecting the title at the top of the designer.
+2. In **Copilot Studio**, make sure you're in the right environment, then on the **Home** page select **Workflow** (*Automate multi-step processes with triggers, actions, AI steps*). Rename the workflow from **Untitled Workflow** to **To Do Time Block** by selecting the title at the top of the designer.
 
    > [!TIP]
    > Workflows are the autonomous side of Copilot Studio — they run on a trigger instead of waiting for a user to chat. You'll find them in the left navigation next to **Agents**.
@@ -320,7 +320,7 @@ Create and publish the **To Do Time Block** Workflow: a To Do trigger feeds a ne
 
 #### Add and configure the inline agent
 
-5. Select the **+** after the trigger and choose **Agent** to add an agent node. (Copilot Studio automatically wraps it in an **Apply to each** loop so the agent runs once per new to-do.) When prompted, **Create new connection** with your lab account. Leave the **Agent** dropdown on **New agent for this workflow** — this creates a brand-new, *non-deterministic* agent dedicated to this workflow rather than reusing an existing one.
+5. Select the **+** after the trigger and choose **Agent** to add an agent node. (When you insert the **Title** token in the next step, Copilot Studio wraps the agent in an **Apply to each** loop so it runs once per new to-do.) When prompted, **Create new connection** with your lab account. Leave the **Agent** dropdown on **New agent for this workflow** — this creates a brand-new, *non-deterministic* agent dedicated to this workflow rather than reusing an existing one.
 
    > [!TIP]
    > This is the heart of the lab: instead of hard-coded actions, the workflow hands the task to an agent that *reasons* about how to schedule it.
@@ -422,13 +422,13 @@ Configure and publish a pre-built **Order Management Workflow** that classifies 
 
 **Summary of tasks**
 
-In this section, you'll configure connection references in the Power Apps solution, transfer workflow ownership, open the workflow to verify canvas-level connections, explore the email classification categories, publish, and verify everything works by sending a test email that triggers the "Other" classification path.
+In this section, you'll configure connection references in the Power Apps solution, confirm you own the workflow, open the workflow to verify canvas-level connections, explore the email classification categories, publish, and verify everything works by sending a test email that triggers the "Other" classification path.
 
 **Scenario:** The solution you imported in the prerequisites contains a pre-built Order Management Workflow that automatically classifies incoming emails with "Order Management" in the subject. It routes emails into one of four categories — **Quote Request**, **Supplier Delay**, **Customer Inquiry**, or **Other** — and takes different automated actions for each. Before the workflow can run, you need to configure all its connections and link them in the solution.
 
 ### Objective
 
-Complete the setup of the **Order Management Workflow**: configure all solution connection references, transfer ownership, verify canvas-level connections, explore the classification categories, publish, and validate end-to-end by sending a test email through the "Other" path.
+Complete the setup of the **Order Management Workflow**: configure all solution connection references, confirm workflow ownership, verify canvas-level connections, explore the classification categories, publish, and validate end-to-end by sending a test email through the "Other" path.
 
 > [!IMPORTANT]
 > This use case is the **foundation for all subsequent use cases** in this module. The connections, ownership, and publishing you complete here are required for the Customer Inquiry, Quote Request, and Supplier Delay paths covered later. Take extra care during setup — if a connection reference is missed or ownership isn't transferred correctly, later use cases will fail silently or with hard-to-diagnose errors.
@@ -445,13 +445,13 @@ Complete the setup of the **Order Management Workflow**: configure all solution 
 1. In **Copilot Studio**, navigate to **Workflows** and open the **Order Management Workflow**.
 
    > [!NOTE]
-   > The workflow has been pre-built for your lab environment. You'll see a **trigger** node ("When a new email arrives"), a **Classify** node, and several branch paths — one for each email category.
+   > The workflow has been pre-built for your lab environment. You'll see a **trigger** node ("When a new email arrives"), a **Classify** node, and four category outputs. Only **Customer Inquiry** (draft-and-review) and **Other** (archive) are wired up for now; you will build the **Supplier Delay** and **Quote Request** branches in Use Cases #4 and #5.
 
    ![The Order Management Workflow open in the canvas designer](images/order-management-workflow-overview.png)
 
 2. Open each node on the canvas by clicking on it so its connection can resolve. Start with the trigger: click **When a new email arrives** and, under **Connections**, wait for the connection to load — it should update automatically to your lab user. Most other nodes resolve the same way. Two nodes need a connection created manually:
 
-   - **M365 Copilot** node — open the node and, under **Connections**, select **Create new connection** > **Create**, then sign in with your lab account.
+   - **Copilot** node (the M365 Copilot step, labelled *Copilot* on the canvas) — open the node and, under **Connection**, if it does not already show your lab account with a green check, select **Create new connection** > **Create**, then sign in with your lab account.
    - **Human review** node — open the node and, under **Connections**, select **Create new connection** > **Create**, then sign in with your lab account.
 
 3. **Confirm you own the workflow.** In **Copilot Studio**, select **Workflows** in the left navigation and find **Order Management Workflow**. Check the **Owner** column.
@@ -465,7 +465,8 @@ Complete the setup of the **Order Management Workflow**: configure all solution 
    > **Only an owner can publish a workflow.** Use Cases #2 through #5 all depend on publishing, so if the **Owner** column names anyone but you, the rest of this lab cannot be completed — no amount of configuration in the designer will change that.
 
    > [!NOTE]
-   > After your own import the workflow arrives with status **Published**, and the **Publish** button in the designer is greyed out. That is expected: there is nothing new to publish yet. It becomes available again as soon as you change something and select **Save** — which is exactly what step 4 does.
+   > After your own import the workflow arrives with status **Published**, and the **Publish** button in the designer is greyed out. That is expected: there is nothing new to publish yet. It becomes available again once the designer detects a change — opening the nodes in step 2 can be enough. Either way, select **Save** first (the status changes to **Draft**), then **Publish** — which is exactly what step 4 does.
+
 4. Go back to the workflow and select **Save** (or press **Ctrl+S**). The **Publish** button becomes available after saving — select **Publish**. If publishing succeeds, the setup is complete and you can **skip step 5**.
 
 5. **(Backup — only if Publish stays disabled or fails.)** Complete both backup steps below.
@@ -486,7 +487,7 @@ Complete the setup of the **Order Management Workflow**: configure all solution 
 
 #### Open and explore the Order Management Workflow
 
-6. Select the **trigger** node ("When a new email arrives"). Next to **Subject filter**, select the code symbol **`</>`** (**Switch to expression mode**) to reveal the expression `@{string('Order Management')}`. This means the workflow only fires for emails whose subject contains "Order Management" — all other emails are ignored.
+6. Select the **trigger** node ("When a new email arrives"). Next to **Subject filter**, select the code symbol **`</>`** (**Switch to expression mode**) to reveal the expression `@string('Order Management')` (before you switch, the field shows a **string** token). This means the workflow only fires for emails whose subject contains "Order Management" — all other emails are ignored.
 
    > [!IMPORTANT]
    > Keep this filter in mind when testing: every test email you send **must include "Order Management" in the subject line**, or the workflow will not trigger. This is a common source of confusion when tests "don't seem to work."
@@ -503,17 +504,17 @@ Complete the setup of the **Order Management Workflow**: configure all solution 
    ![The Classify node categories, with the three configured categories listed](images/classify-categories-all.png)
 
    > [!TIP]
-   > **Improving classification accuracy:** You can add multiple examples to each category to handle different phrasings and edge cases. For instance, a "Quote Request" might come as *"Can you send me pricing for 500 units?"* or *"We'd like a formal quotation for the attached spec."* Adding diverse examples helps the model generalize better. A good testing exercise is to try common cases **and** edge cases using the **Test** tab in the Classify node, observe how categories get assigned, and refine the category descriptions accordingly.
+   > **Improving classification accuracy:** You can add multiple examples to each category to handle different phrasings and edge cases. For instance, a "Quote Request" might come as *"Can you send me pricing for 500 units?"* or *"We'd like a formal quotation for the attached spec."* Adding diverse examples helps the model generalize better. A good testing exercise is to try common cases **and** edge cases using the **Run node** tab in the Classify node, observe how categories get assigned, and refine the category descriptions accordingly.
 
 #### Test the classification
 
-8. Test the classification before sending a real email. In the **When a new email arrives** section, find **Body** (*The body of the message*), click into the box, and paste:
+8. Test the classification before sending a real email. In the **Classify** node panel, open the **Run node** tab. In the **When a new email arrives** section, find **Body** (*The body of the message*), click into the box, and paste:
 
    ```
    Hi, I would like to request a quote for 500 units of Product A.
    ```
 
-   Select **Run test** and observe the predicted category — it should classify as **Quote Request**.
+   Select **Run** and observe the predicted category — it should classify as **Quote Request**.
 
    ![The classification test result showing Quote Request](images/classify-test-result.png)
 
@@ -549,10 +550,10 @@ Complete the setup of the **Order Management Workflow**: configure all solution 
 
 10. Wait a **few seconds** for the workflow to trigger and process the email. Then navigate to your **Archive** folder in Outlook. You should see the test email has been automatically moved there — confirming the "Other" classification path is working correctly.
 
-   > [!TIP]
-   > If the email doesn't appear in the Archive folder, check the **Activity** tab in the workflow in Copilot Studio to see if the run triggered. If no run appears, verify the workflow is **Published** (not Draft) and that the email subject includes "Order Management."
+    > [!TIP]
+    > If the email doesn't appear in the Archive folder, check the **Activity** tab in the workflow in Copilot Studio to see if the run triggered. If no run appears, verify the workflow is **Published** (not Draft) and that the email subject includes "Order Management."
 
-   ![The test email moved to the Archive folder by the workflow](images/archive-other-email.png)
+    ![The test email moved to the Archive folder by the workflow](images/archive-other-email.png)
 
 ---
 
@@ -598,7 +599,7 @@ Validate the **Customer Inquiry** path of the **Order Management Workflow**: con
 
    - In the message, confirm the proposed reply drafted by **M365 Copilot** is inserted for the reviewer to read.
    - Notice that the review request is delivered over **Outlook** — observe how we use an Outlook email to ask a person to approve before the workflow continues.
-   - The reviewer responds through a single **Yes/No** input (**Send proposed reply from M365?**). Select **+** to expand and see the other input types available — text, email, number, date, and more. You don't need to add any here, but it's worth understanding the variety of formatted inputs you can request and then reuse cleanly in downstream nodes.
+   - The reviewer responds through a single **Yes/No** input labelled **Approve** (*Send proposed reply?*). Select **+** to expand and see the other input types available — text, email, number, date, and more. You don't need to add any here, but it's worth understanding the variety of formatted inputs you can request and then reuse cleanly in downstream nodes.
 
    ![The Human review node showing the proposed M365 reply and approval options](images/customer-inquiry-human-review-node.png)
 
@@ -639,7 +640,7 @@ Validate the **Customer Inquiry** path of the **Order Management Workflow**: con
 
    ![The run details showing the Human Request node waiting for approval](images/customer-inquiry-human-request-waiting.png)
 
-8. Go to **Outlook** and open the incoming approval email. It arrives from **Microsoft Power Automate** with the subject **"Action Needed: Review Customer Enquiry Reply"** and opens *"Dear reviewer, A customer inquiry has come in…"*. Review the proposed M365 Copilot reply, choose **Yes** under **Send proposed reply from M365?**, and select **Submit**.
+8. Go to **Outlook** and open the incoming approval email. It arrives from **Microsoft Power Automate** with the subject **"Action Needed: Review Customer Enquiry Reply"** and opens *"Dear reviewer, A customer inquiry has come in…"*. Review the proposed M365 Copilot reply, choose **Yes** under **Approve**, and select **Submit**.
 
    > [!NOTE]
    > The approval card is an **actionable message**, so Outlook renders the Yes/No choice and a **Submit** button inside the email itself — approving is two clicks (pick **Yes**, then **Submit**), not one. Outlook may also show a **Trust sender** prompt above the card; the card still works without actioning it.
@@ -667,7 +668,7 @@ You've confirmed that the workflow can generate a grounded response with M365 Co
 ## 📦 Use Case #4: Build an Inline Agent for Inventory Management
 
 > [!IMPORTANT]
-> **This use case needs the Warehouse MCP server already present in your environment.** It is a custom connector, not a platform tool, and nothing earlier in this lab creates it — if it is missing, the **Add tool** step below has nothing to select. Two minutes now saves the detour: [is it already loaded?](#check-whether-it-is-already-loaded) In most delivery tenants it ships with the environment. If not, [import it](#how-to-import-it) — the solution package is in this repo.
+> **This use case needs a warehouse MCP server already present in your environment** — **Warehouse MCP** or **Warehouse and Fulfillment MCP**. It is a custom connector, not a platform tool, and nothing earlier in this lab creates it — if it is missing, the **Add tool** step below has nothing to select. Two minutes now saves the detour: [is it already loaded?](#check-whether-it-is-already-loaded) Many delivery tenants ship one with the environment. If not, [import it](#how-to-import-it) — the solution package is in this repo.
 
 Extend the **Supplier Delay** branch with an inline **Agent** that uses **MCP servers** to reason over the delay notice, check current stock, and create a follow-up **Dataverse Task**.
 
@@ -691,7 +692,7 @@ Build and validate the **Supplier Delay** path of the **Order Management Workflo
 
    ![The Supplier Delay category with the add action menu open to Agent](images/supplier-delay-add-agent.png)
 
-2. In the new node, leave **Agent** set to **New agent in this workflow**. This creates an inline agent dedicated to this workflow path. Keep the default AI model.
+2. In the new node, leave **Agent** set to **New agent for this workflow**. This creates an inline agent dedicated to this workflow path. Keep the default AI model.
 
    > [!TIP]
    > A strength of AI-native nodes in Workflows is that you can choose a **different model per node**. An example is an inline agent that runs on a **Claude** model for its reasoning, while the **Classify** node uses a lighter **GPT** model — a cost-optimization pattern. Matching the model to the work each node does keeps the workflow both capable and economical.
@@ -700,18 +701,18 @@ Build and validate the **Supplier Delay** path of the **Order Management Workflo
 
    ![The expanded agent configuration renamed to Inventory Task Agent](images/supplier-delay-agent-expanded.png)
 
-4. Under **Tools**, navigate to **Model Context Protocol** (**MCP servers**), then add and connect both of these tools:
+4. Under **Tools**, select **+**, open the **MCP** tab of the **Add a tool** dialog, then add and connect both of these tools:
 
    - **Microsoft Dataverse MCP Server**
-   - **Warehouse and Fulfillment MCP**
+   - **Warehouse and Fulfillment MCP** (or **Warehouse MCP**; see the warning below)
 
    Sign in or connect as prompted so both tools show as available in the agent.
 
     > [!WARNING]
-    > The server is listed as **Warehouse and Fulfillment MCP**, not "Warehouse MCP" — searching for the shorter name returns nothing. It appears only under the **Model Context Protocol (MCP)** tab of the tool picker; the **All** tab returns unrelated connector actions.
+    > Depending on how your environment was provisioned, the warehouse server is listed as **Warehouse and Fulfillment MCP** (pre-provisioned in some tenants), as **Warehouse MCP** (from the Enhanced Task Completion import in the prerequisites), or both. Either one exposes the restock-date lookup this agent needs, so add one, not both. Search for **Warehouse** on the **MCP** tab of the tool picker; the **Featured** tab (labelled **All** once you type a search) returns unrelated connector actions. If the server's connection shows **Not connected**, select **Create new connection** > **Create**.
 
     > [!IMPORTANT]
-    > **If a tool's panel says "No tools found", remove the tool and add it again.** Open the tool and look at its **Tools / Inputs** list, not just its **Connection** — an MCP server can show a perfectly valid connection while exposing no operations at all. When that happens the agent runs, reasons, and reports that the connector is "not available as a tool" instead of failing, so the run succeeds while doing nothing. Re-creating the connection does **not** fix it. Removing the tool from the agent and re-adding it from the **Model Context Protocol (MCP)** tab does. After re-adding, the button becomes **Save and publish** — plain **Publish** leaves the change unsaved.
+    > **If a tool's panel says "No tools found", remove the tool and add it again.** Open the tool and look at its **Tool permissions** list, not just its **Connection** — an MCP server can show a perfectly valid connection while exposing no operations at all. When that happens the agent runs, reasons, and reports that the connector is "not available as a tool" instead of failing, so the run succeeds while doing nothing. Re-creating the connection does **not** fix it. Removing the tool from the agent and re-adding it from the **MCP** tab does. After re-adding, the button becomes **Save and publish** — plain **Publish** leaves the change unsaved.
 
    ![The agent tools panel showing Dataverse MCP and Warehouse MCP connected](images/supplier-delay-mcp-tools.png)
 
@@ -737,6 +738,7 @@ Build and validate the **Supplier Delay** path of the **Order Management Workflo
    Subject: Restock delay - [product] ([SKU]).
    Description: the current on-hand quantity and warehouse; the delayed next shipment date, the expected quantity, and the supplier; the urgency judgement; and a one-line action for the replenishment team.
    Priority: High if the on-hand quantity is zero, otherwise Normal.
+   Due Date: the Review by (Due Date) value from the inputs.
 
    Rules
    Create exactly one Task row and set only the columns listed above.
@@ -760,16 +762,16 @@ Build and validate the **Supplier Delay** path of the **Order Management Workflo
 
    ![The agent instructions showing Body and due date dynamic expressions inserted](images/supplier-delay-dynamic-content.png)
 
-7. Scroll to the **Output** section and change the dropdown to **Structured output**. Add these three properties:
+7. Scroll to the **Output** section and change the dropdown to **Structured output**. Select **Add property** for each of these three properties, set its type, then use **...** > **Add description** to enter the description:
 
-   - `sku` (**string**) — *The SKU named in the delay notice*
-   - `stock` (**number**) — *Current stock quantity from the warehouse for the SKU named*
-   - `risk` (**boolean**) — *True if current stock is zero*
+   - `sku` (**Text**) — *The SKU named in the delay notice*
+   - `stock` (**Number**) — *Current stock quantity from the warehouse for the SKU named*
+   - `risk` (**Yes/No**) — *True if current stock is zero*
 
    ![The structured output configuration with sku stock and risk properties](images/supplier-delay-structured-output.png)
 
    > [!TIP]
-   > **"Request human assistance when unsure":** Notice the button in the agent configuration panel. This feature sends a structured message to the connection owner when the agent encounters ambiguity or conflicting information — it dynamically generates questions based on the problem at hand, allowing human judgment for edge cases while keeping the automation running.
+   > **"Request human assistance when unsure":** Notice the toggle in the agent configuration panel. This feature sends a structured message to the connection owner when the agent encounters ambiguity or conflicting information — it dynamically generates questions based on the problem at hand, allowing human judgment for edge cases while keeping the automation running.
 
 8. Minimize the view, then select **Save** and **Publish** so the Supplier Delay branch is live with the new agent configuration.
 
@@ -803,7 +805,7 @@ Build and validate the **Supplier Delay** path of the **Order Management Workflo
 
 11. Select the **Inventory Task Agent** node in the run details and scroll through the tool runs. You should see the warehouse lookup and the Dataverse describe/create operations executed by the agent:
 
-    - Using the **Warehouse MCP**, the agent looks up the current stock for the delayed product (the SKU named in the email).
+    - Using the warehouse MCP server (**Warehouse and Fulfillment MCP** or **Warehouse MCP**), the agent looks up the current stock for the delayed product (the SKU named in the email).
     - Using **Dataverse**, it then inspects the **Task** table and creates a new row there, filling in the subject, description, priority, and due date exactly as the instructions specified.
 
     Together, these tool calls show how the agent turned an unstructured delay email into a concrete, trackable restock task.
@@ -818,7 +820,7 @@ Build and validate the **Supplier Delay** path of the **Order Management Workflo
 
     ![The structured output values showing SKU-LUMI stock 0 and risk true](images/supplier-delay-structured-output-result.png)
 
-13. Open **Power Apps** ([make.powerapps.com](https://make.powerapps.com)), navigate to **Tables → Task**, and find the row **Restock delay - LumiRead E-Reader (16GB) (SKU-LUMI)**. Verify the task has a **Due Date** three days from now and **Priority = High**.
+13. Open **Power Apps** ([make.powerapps.com](https://make.powerapps.com)), navigate to **Tables → Task**, select **Edit** in the *Task columns and data* section (the preview shows only 10 rows), and find the row **Restock delay - LumiRead E-Reader (16GB) (SKU-LUMI)**. Verify the task has a **Due Date** three days from now and **Priority = High**.
 
     ![The Dataverse Task row created for the delayed LumiRead shipment](images/supplier-delay-dataverse-task.png)
 
@@ -850,7 +852,7 @@ Publish the **Price Quote Agent**, configure the **Quote Request** path to use i
 
 #### Inspect the reusable Price Quote Agent
 
-1. In **Copilot Studio**, select **Agents** in the left navigation. Ensure the **New experience** toggle (top-right of the Agents list) is **ON** — this gives you the modern agent builder.
+1. In **Copilot Studio**, select **Agents** in the left navigation. The agent opens in the new agent builder (tabs **Build**, **Preview**, **Evaluate**, **Monitor**). If your tenant still shows a **New experience** toggle at the top right of the Agents list, turn it **ON**.
 
    ![The Agents list with the New experience toggle enabled](images/agents-list-new-experience.png)
 
@@ -866,14 +868,14 @@ Publish the **Price Quote Agent**, configure the **Quote Request** path to use i
 3. **Confirm each MCP tool actually lists its operations, and re-add any that do not.** Open **Tools > Mail**, then **Tools > Microsoft Dataverse MCP Server**, and check each panel:
 
    - **Connection** — if it shows **Not Connected**, select **Create new connection > Create** and **Confirm**, signing in with your lab account.
-   - **Tools / Inputs** — this must list the operations the server exposes. **Mail** should show **AddDraftAttachments**, **UpdateDraft** and **SendEmailWithAttachment**; **Microsoft Dataverse MCP Server** should show **read_query**, **create_record** and **update_record**.
+   - **Tool permissions** — this must list the operations the server exposes. **Mail** should list **Add draft attachments**, **Update draft** and **Send email with attachments**; **Microsoft Dataverse MCP Server** should list **Read query**, **Create record** and **Update record**.
 
-   If either panel reads **"No tools found"**, remove that tool and add it back: select it in the agent's **Tools** list and delete it, choose **Add tool**, open the **Model Context Protocol (MCP)** tab, pick the same server, then **Save and publish** the agent. Reopen the tool and the operations are listed. **Mail** is the one that most often deploys empty, so expect to do this at least once.
+   If either panel reads **"No tools found"**, remove that tool and add it back: select it in the agent's **Tools** list and delete it, choose **Add tool**, open the **MCP** tab, pick the same server, then **Save and publish** the agent. Reopen the tool and the operations are listed. **Mail** is the one that most often deploys empty, so expect to do this at least once.
 
    > [!IMPORTANT]
    > **Do not skip this on the strength of a healthy-looking Connection.** A **"No tools found"** panel still shows a perfectly valid connection, and re-creating the connection does **not** fix it — that has been tested. Removing and re-adding the tool is what works.
    >
-   > If it is **Microsoft Dataverse MCP Server** that lists nothing, also check [Dataverse connection reference — do this first](#dataverse-connection-reference--do-this-first) — an unbound connection reference produces the same empty tool list, and re-adding the tool alone will not fix that one.
+   > If it is **Microsoft Dataverse MCP Server** that lists nothing, also check the Microsoft Dataverse connection reference in **LAB: Order Management Workflows** (`crc3b_draft_bRURqJ.cr.shared_commondataserviceforapps.…`: the Microsoft Dataverse row of the import's **Connections** step, or Use Case #2 step 5.1). The Price Quote Agent's Dataverse tool binds to that reference, not to the one in **LAB: Account Lookup Agent**. An unbound connection reference produces the same empty tool list, and re-adding the tool alone will not fix that one.
    >
    > Left unaddressed, the agent still runs and still calculates the quote correctly, but it cannot send anything: the run **Succeeds**, and the Agent node's output reads *"Since Work IQ and Dataverse connectors are not available as tools in this environment, I'll present the complete results here for the orders team to act on."* The quote email never arrives. If re-adding the tool still leaves the list empty, ask your instructor whether the Dataverse MCP and Mail servers are enabled for this tenant — and in the meantime read the quote out of the Agent node's output in the run details.
 
@@ -904,10 +906,10 @@ Publish the **Price Quote Agent**, configure the **Quote Request** path to use i
 
 10. Replace the placeholders with dynamic values:
 
-   - Replace the **`[email sender]`** placeholder (select the arrow **>**), choose the **lightning** icon, search for **from**, and insert **From**.
-   - Replace the **`[email body]`** placeholder (select the arrow **>**), choose the **lightning** icon, search for **body**, and insert **Body**.
+    - Select the **`[email sender]`** placeholder text, choose the **lightning** (Insert dynamic content) icon, search for **from**, and insert **From**. If the placeholder text is still there afterwards, delete it.
+    - Select the **`[email body]`** placeholder text, choose the **lightning** (Insert dynamic content) icon, search for **body**, and insert **Body**. If the placeholder text is still there afterwards, delete it.
 
-   ![The Quote Request message field with From and Body dynamic tokens inserted](images/quote-request-message-dynamic-content.png)
+    ![The Quote Request message field with From and Body dynamic tokens inserted](images/quote-request-message-dynamic-content.png)
 
 11. Select **Save**, then **Publish**.
 
@@ -977,7 +979,7 @@ To get the most out of Workflows in Copilot Studio:
 * **Publish before you test** — the trigger is only live after a publish, and changes don't take effect until you re-publish.
 * **Solution-level setup matters** — connection references in the Power Apps solution must be linked to actual connections *before* the workflow can be activated. Canvas-level connections alone are not sufficient; always verify solution connection references.
 * **Classify with examples, refine with testing** — the Classify node's accuracy depends on the quality and diversity of category examples. Test with edge cases and refine descriptions iteratively to improve routing accuracy.
-* **Ownership is a prerequisite** — workflows created by another user require an ownership transfer before you can publish or manage them. Use the Dataverse **Assign** function to take control.
+* **Ownership is a prerequisite** — only the owner can publish a workflow. Import the solution yourself so you own it, or delete and re-import a copy someone else installed.
 * **Use M365 Copilot when you need grounded, read-only retrieval** — the M365 Copilot node is excellent for finding context in email, chats, and files, but it does not perform write actions such as sending mail. Pair it with downstream workflow actions when approval or dispatch is required.
 * **Human review is the safety valve for customer-facing automation** — approval nodes let you insert AI-generated content into a reviewer-friendly message, capture a clear Yes/No decision, and keep the workflow paused until a person signs off.
 * **MCP servers turn an agent into an operational worker** — by connecting the Agent node to tools like Warehouse MCP and Dataverse MCP, the workflow can retrieve live business data, make judgments, and write records into line-of-business systems.
@@ -996,7 +998,7 @@ To get the most out of Workflows in Copilot Studio:
 > * Give the agent **only the tools it needs**, and state constraints (working hours, formatting, categories) explicitly in the instructions.
 > * Always **Save → Publish** before testing, and **re-publish** after any change. Use the **Activity** and **Monitor** views — and the **Agent** node's run details — to see exactly what the agent decided and did.
 > * **Fix connection references at the solution level** — creating connections in the canvas is not enough. Always verify and link connection references in the Power Apps solution before publishing.
-> * **Transfer ownership early** — if a workflow was created by another user, take ownership via Dataverse **Assign** before attempting any other management operations.
+> * **Own the workflow before you start** — import the solution yourself (or delete and re-import a copy someone else installed) so you are the owner before you publish or manage it.
 > * **Classify nodes are only as good as their examples** — invest time in adding diverse, representative examples to each category and testing edge cases to improve classification accuracy.
 > * Use the **M365 Copilot** node for grounded, **read-only** retrieval and drafting, then pair it with other nodes when the workflow needs to send messages or update systems.
 > * Put **Human review** in front of customer-facing actions whenever the quality bar or business risk warrants a person-in-the-loop checkpoint.
