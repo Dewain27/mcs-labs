@@ -35,6 +35,8 @@ Use Microsoft 365 Copilot and Frontier agents (Researcher and Analyst) to turn i
   - [Use Case #2: Grounding Copilot with Work IQ](#use-case-2-grounding-copilot-with-work-iq)
   - [Use Case #3: Deep analysis with the Researcher agent](#use-case-3-deep-analysis-with-the-researcher-agent)
   - [Use Case #4: Financial modeling with the Analyst agent](#use-case-4-financial-modeling-with-the-analyst-agent)
+- [Summary of learnings](#summary-of-learnings)
+- [Conclusions & Recommendations](#conclusions--recommendations)
 
 ## Introduction
 
@@ -61,7 +63,7 @@ Microsoft 365 Copilot also provides access to frontier agents: **Researcher** pe
 - A Microsoft 365 account with a Microsoft 365 Copilot licence
 - Access to Microsoft 365 Copilot with the Researcher and Analyst agents enabled
 - Use Case #2 resources:
-  - **Instructor-led bootcamp:** Files are already preloaded to the SharePoint location, so you can skip this prerequisite
+  - **Instructor-led event:** Files are already preloaded to the SharePoint location, so you can skip this prerequisite
   - **Independent use:** Upload the following files to a OneDrive or SharePoint location that Microsoft 365 Copilot can access:
     - [Zava DIY Markdown and Clearance Policy](assets/sample-files/Zava_DIY_Markdown_and_Clearance_Policy.docx)
     - [Zava DIY Q2 2026 Store Performance Report](assets/sample-files/Zava_DIY_Q2_2026_Store_Performance_Report.pdf)
@@ -98,7 +100,7 @@ Understand what Microsoft 365 Copilot does on its own, grounded in public web co
 
 #### 1.1 Orientation & Work IQ
 
-1. Navigate to the Microsoft 365 Copilot home page: <https://m365.cloud.microsoft/>.
+1. Navigate to Microsoft 365 Copilot Chat: <https://office.com/chat>.
 
 2. Find the **Work IQ control at the top left of the chat**. Market data lives on the public web, so select **Work IQ** to cross it off. With Work IQ off, nothing from your files, mail, meetings or chats is in scope, and every fact in the answers that follow has to come from a public source Copilot can cite and you can open.
 
@@ -163,7 +165,7 @@ This one will run a bit longer than the first.
 
 Compare the two responses:
 
-| | 1.3 on Quick response | 1.4 on Think deeper |
+| | 1.2 on Quick response | 1.3 on Think deeper |
 |---|---|---|
 | **References** | A handful, lightly used | Many, tied to specific figures |
 | **Numbers** | Described | Retrieved, then calculated with |
@@ -214,7 +216,7 @@ Use Work IQ to ground Copilot in your organizational content and produce a cited
 ### Step-by-step instructions
 
 > [!IMPORTANT]
-> If you are not attending the facilitated bootcamp, confirm that the Use Case #2 files listed in [Prerequisites](#prerequisites) are uploaded and available through Work IQ before continuing.
+> If you are not attending an instructor-led event, confirm that the Use Case #2 files listed in [Prerequisites](#prerequisites) are uploaded and available through Work IQ before continuing.
 
 #### 2.1 Start a grounded chat
 
@@ -262,12 +264,12 @@ Observe how Copilot breaks the request into individual requirements, cross-refer
 
 #### 2.4 Let Copilot find the report by itself
 
-Do **not** attach a file or paste a link. Let Work IQ locate the named report in your organization's content.
+Do **not** attach a file or paste a link. Let Work IQ locate the named report in your organization's content. (If the policy document still shows as an attachment in the prompt box from opening its citation in 2.2, that's fine. You can leave it or remove it with the **X**. The point is that the Q2 report is not attached.)
 
 Paste the following into the prompt box and hit **Send**:
 
 ```text
-Find the DIY Q2 2026 performance and cross-reference it with the policy.
+Find the Zava DIY Q2 2026 store performance report and cross-reference it with the policy.
 
 Build a table of all stores besides online with these columns:
 - Store
@@ -328,7 +330,7 @@ Leverage the Researcher frontier agent in Microsoft 365 Copilot to perform deep,
 
 | Use case                                    | Value added                                                                                         | Estimated effort |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------------- | ---------------- |
-| Deep analysis with the Researcher agent     | Use the Researcher frontier agent to synthesize strategic insights across a multi-section report     | 5 minutes        |
+| Deep analysis with the Researcher agent     | Use the Researcher frontier agent to synthesize insights across a complex multi-section business report     | 5 minutes        |
 
 **Summary of tasks**
 
@@ -353,10 +355,10 @@ Use the Researcher agent to perform two deep-analysis tasks on a complex PDF doc
 
 #### Open the Researcher agent
 
-2. Navigate to [Microsoft 365 Copilot](https://m365.cloud.microsoft/chat/?auth=2&home=1).
+2. Navigate to [Microsoft 365 Copilot Chat](https://office.com/chat).
 
-3. In the right-side panel or the main chat area, look for the **Researcher** agent. You can find it by:
-   - Selecting the agent picker (if available) and choosing **Researcher**
+3. Select the **Researcher** agent. You can find it by:
+   - Selecting **Researcher** under **Pinned** in the left navigation pane (or under **Agents** if it isn't pinned)
    - Or typing `@Researcher` in the chat input area
 
 > [!TIP]
@@ -436,7 +438,7 @@ Use the Analyst frontier agent to extract data from the same hotel performance r
 
 | Use case                                       | Value added                                                                                              | Estimated effort |
 | ---------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ---------------- |
-| Financial modeling with the Analyst agent      | Use the Analyst frontier agent to compute NPV, IRR, and rank capital investments by financial merit      | 5 minutes        |
+| Financial modeling with the Analyst agent      | Use the Analyst frontier agent to perform NPV/IRR financial modeling and investment prioritization from document data      | 5 minutes        |
 
 **Summary of tasks**
 
@@ -452,10 +454,10 @@ Use the Analyst agent to perform a detailed ROI analysis with NPV, IRR, and disc
 
 #### Open the Analyst agent
 
-1. Navigate to [Microsoft 365 Copilot](https://m365.cloud.microsoft/chat/?auth=2&home=1).
+1. Navigate to [Microsoft 365 Copilot Chat](https://office.com/chat).
 
 2. Select the **Analyst** agent. You can find it by:
-   - Selecting the agent picker and choosing **Analyst**
+   - Selecting **Analyst** under **Pinned** in the left navigation pane (or under **Agents** if it isn't pinned)
    - Or typing `@Analyst` in the chat input area
 
 > [!TIP]
@@ -557,7 +559,7 @@ Microsoft 365 Copilot chat, Work IQ and two frontier agents produced different k
 
 **Check the commodity first.** Before scoping anything, ask what Microsoft 365 Copilot already does with the same material. When the answer is good enough, consuming it costs nothing to run and nothing to maintain.
 
-**Build when you need what the commodity cannot give you** — your own grounding, a repeatable process, a controlled response, or an action written back to a system of record. Those are real requirements, and they are exactly what the harnesses in this bootcamp exist to serve.
+**Build when you need what the commodity cannot give you** — your own grounding, a repeatable process, a controlled response, or an action written back to a system of record. Those are real requirements, and they are exactly what the harnesses covered in this event exist to serve.
 
 **Evaluate the response.** Grounding, response mode and AI model all influence the output. Review citations, assumptions and usefulness rather than trusting a model name or polished answer.
 
