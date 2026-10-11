@@ -83,7 +83,7 @@ This lab takes the maker path. You build two agents — one grounded in public d
 
 ## Prerequisites
 
-- A Microsoft 365 account with a Microsoft 365 Copilot licence
+- A Microsoft 365 account with a Microsoft 365 Copilot license
 - Access to Agent Builder in Microsoft 365 Copilot
 - Access to the SharePoint Sales folder with the sample files used in Use Case #2
 - (Extra Credit) Access to the Sales Opportunities SharePoint list
@@ -143,7 +143,7 @@ Create, configure, and test a web-based Copilot agent that serves as a knowledge
 
 #### Navigate to Microsoft 365 Copilot
 
-1. Navigate to [Microsoft 365 Copilot home page](https://m365.cloud.microsoft/chat/?auth=2&home=1)
+1. Navigate to [Microsoft 365 Copilot home page](https://office.com/chat)
 
 <!--
 
@@ -156,7 +156,7 @@ Create, configure, and test a web-based Copilot agent that serves as a knowledge
 >
 >   ![alt text](images/app-launcher.png)
 >
-> - The Copilot pane should be on the left-hand side of the page, and the URL should be `https://m365.cloud.microsoft/`. If you see this, you're on the right page:
+> - The Copilot pane should be on the left-hand side of the page, and you should be in Copilot Chat (open it at `https://office.com/chat`). If you see this, you're on the right page:
 >
 >   ![alt text](images/correct-copilot-page.png)
 >
@@ -169,17 +169,17 @@ Create, configure, and test a web-based Copilot agent that serves as a knowledge
 > [!TIP]
 > Both Microsoft 365 Copilot and Copilot Chat are designed for internal, employee-facing (B2E) experiences.
 >
-> - Users who have **only Copilot Chat** will **not see any toggle** in the interface – this is expected.
-> - Users who have **both** Microsoft 365 Copilot and Copilot Chat will see a **toggle** that lets them switch between the **Work** (Microsoft 365 Copilot) and **Web** (Copilot Chat) experiences.
+> - Users who have **only Copilot Chat** will **not see the Work IQ switch** in the interface – this is expected.
+> - Users who have **both** Microsoft 365 Copilot and Copilot Chat will see a **Work IQ** switch above the message box: turn it **on** for the work-grounded Microsoft 365 Copilot experience, or **off** for the web-grounded Copilot Chat experience.
 >
 > ![Microsoft 365 Copilot](images/m365-copilot.png)
 >
 > **Microsoft 365 Copilot** is a per-user license with premium features:
 >
-> - Advanced agents like the research and analysts Frontier ones, grounded on enterprise data and using the latest reasoning models
+> - Advanced agents like the Researcher and Analyst Frontier agents, grounded on enterprise data and using the latest reasoning models
 > - Knowledge sources (e.g., your enterprise data from Outlook, Teams, SharePoint, or Copilot connectors)
 >
-> **Copilot Chat** is the enterprise version of ChatGPT included with many Microsoft 365 licenses at no extra cost. It uses the same underlying models and can access web data to generate answers.
+> **Copilot Chat** is a secure, web-grounded AI chat experience included with many Microsoft 365 licenses at no extra cost. It uses large language models and can access web data to generate answers.
 >
 > - Copilot Chat can leverage premium capabilities like organization-tenant grounding for answers when tied to a pay-as-you-go Azure subscription.
 >
@@ -193,9 +193,9 @@ Create, configure, and test a web-based Copilot agent that serves as a knowledge
 1. Select **New chat** in the left navigation pane if not already selected.
 
 > [!IMPORTANT]
-> **Optional:** If you have an account in the CopilotStudioTraining tenant with a Microsoft 365 Copilot license, try the following steps to experience the Work tab firsthand.
+> **Optional:** If you have an account in the CopilotStudioTraining tenant with a Microsoft 365 Copilot license, try the following steps to experience Work IQ grounding firsthand.
 
-   - 2a. Make sure you are on the **Work** tab.
+   - 2a. Make sure **Work IQ** (above the message box) is turned **on**.
 
    - 2b. Type the following prompt and select **Send**:
    
@@ -206,11 +206,11 @@ Create, configure, and test a web-based Copilot agent that serves as a knowledge
    - 2c. Observe the results:
       - The response is **grounded in SharePoint** content from your organization
       - Citations reference documents in the organization's SharePoint site.
-      - This demonstrates how the **Work** tab provides an intelligent experience that automatically searches your organization's SharePoint data
+      - This demonstrates how **Work IQ** provides an intelligent experience that automatically searches your organization's SharePoint data
 
 #### Test the Copilot Chat experience
 
-1. If you have Microsoft 365 Copilot license, make sure you are in the **Web** tab (if you don't see any tab for Work/Web, this means you only have access to Copilot Chat).
+1. If you have Microsoft 365 Copilot license, turn **Work IQ** **off** (above the message box) so Copilot answers from the web only (if you don't see a Work IQ switch, you only have access to Copilot Chat).
 
 2. Test the basic experience by typing the following into the Message Copilot input area and then selecting **Send**:
 
@@ -226,7 +226,7 @@ Create, configure, and test a web-based Copilot agent that serves as a knowledge
 
 1. On the left side navigation pane, select **Agents** to open the **Agent Store**, then select **Create agent** (or the **New agent** card)
 
-2. Notice that you can explore existing available templates. But for this lab, paste the following prompt into the **Message Agent Builder** input area on the initial screen, and then select **Send**. (The **Describe**, **Configure**, and **Preview** tabs appear once the conversation begins.)
+2. Notice that you can explore existing available templates. But for this lab, paste the following prompt into the **Message Agent Builder** input area on the initial screen, and then select **Send**. (Once the conversation begins, the chat stays on the left and the agent appears on the right. Use the **Configure** / **Preview** drop-down at the top of the right pane to switch between editing and testing.)
 
    ```
    I want to build a teacher-style agent that helps users learn about Copilot, including the differences between Microsoft 365 Copilot and Copilot Chat, Declarative Agents vs. Custom Engine Agents, and how to use Agent Builder in Microsoft 365. The agent should ask questions to validate and reinforce user understanding, encourage exploration, and act as a knowledgeable guide grounded in Microsoft documentation.
@@ -238,10 +238,10 @@ Create, configure, and test a web-based Copilot agent that serves as a knowledge
 3. _If_ the proposed agent has a name other than Copilot Teacher input the following prompt to adjust the name and other details and select **Send**:
 
    ```
-   The name of the agent should be Copilot Teacher. Your tone should be friendly, personal, and emphatic. You can make jokes, use subtle irony and emojis when appropriate.
+   The name of the agent should be Copilot Teacher. Your tone should be friendly, personal, and empathetic. You can make jokes, use subtle irony and emojis when appropriate.
    ```
 
-4. _If_ asked about how the agent should handle **questions that are directly related to Copilot**, or how the agent should handle **situations where the user provides incorrect information or demonstrates a misunderstanding**, reply with:
+4. _If_ asked about how the agent should handle **questions that are not directly related to Copilot**, or how the agent should handle **situations where the user provides incorrect information or demonstrates a misunderstanding**, reply with:
 
    ```
    It shouldn't answer questions that are not related to Microsoft 365 Copilot, Copilot Chat, or Copilot Studio. Always guide users towards the correct solution based on your knowledge.
@@ -258,19 +258,19 @@ Create, configure, and test a web-based Copilot agent that serves as a knowledge
 
 #### Finalize configuration
 
-1. Now let's head over to the **Configure** tab. Notice how all of your previous interactions have built the configuration of your agent, its name, description, instructions, knowledge sources and starter prompts. Feel free to tweak them!
+1. Now look at the **Configure** view on the right (it is shown by default). Notice how all of your previous interactions have built the configuration of your agent, its name, description, instructions, knowledge sources and starter prompts. Feel free to tweak them!
 
-2. In the **Knowledge** section, after adding knowledge sources, turn **Only use specified sources** **on** (it is not enabled automatically) so that the agent uses the configured websites when providing answers, and not its own large language model knowledge.
+2. In the **Knowledge** section, select the **Knowledge settings** (gear) icon and turn **Discourage model knowledge** **on** (it is off by default) so the agent prefers the configured sources over its own model knowledge. Optionally turn off the **Work content** sources (Cloud files, Outlook, Teams) if you want answers from the websites only.
 
 3. Fix any issue like max character limit for starter prompt titles.
 
-4. You can test your agent in the test pane. When ready, select **Create** in the upper right corner to finish creating your agent.
+4. You can test your agent by selecting **Preview** in the drop-down at the top of the right pane. When ready, select **Create** in the upper right corner to finish creating your agent.
 
 ![Agent Builder test pane](images/agent-builder.png)
 
 #### Share and test your agent
 
-1. You can use the generated link to share your agents with other users.
+1. The agent is private to you by default. You can select **Share** to share it with other users.
 
 2. Select **Start chat** to open and test your agent.
 
@@ -292,7 +292,7 @@ What are the differences between Microsoft 365 Copilot and Copilot Chat?
 ![Results from testing your agent](images/declarative-agent-test.png)
 
 > [!IMPORTANT]  
-> If you need to update a declarative agent, select `...` next to the agent name and select **Edit**, or go to **New agent** then select **Agent Builder** in the breadcrumbs and then Copilot Teacher from the list of your agents.
+> If you need to update a declarative agent, in the left pane hover over **Agents** and select the arrow next to it to open your agents list, hover over the agent, select **More** (`...`), and then select **Edit**, or go to **New agent** then select **Agent Builder** in the breadcrumbs and then Copilot Teacher from the list of your agents.
 
 ---
 
@@ -314,7 +314,7 @@ What are the differences between Microsoft 365 Copilot and Copilot Chat?
 
 - State the agent's purpose, intended audience, boundaries, and expected behavior explicitly in its instructions.
 - Use trusted, accessible knowledge sources and verify that test responses cite the expected source.
-- If responses are too generic, confirm the intended sources are configured and that **Only use specified sources** is enabled when the scenario requires source-only grounding.
+- If responses are too generic, confirm the intended sources are configured and that **Discourage model knowledge** is turned on in **Knowledge settings** when the scenario requires source-focused grounding.
 - Create starter prompts that exercise the agent's most important behaviors rather than merely describing them.
 - Test both in-scope and out-of-scope questions, then refine the instructions when the agent is too broad or too restrictive.
 - Use **Start a new chat** between test scenarios so prior conversation context does not affect the result.
@@ -377,21 +377,21 @@ Build a sophisticated Sales Revenue Analyst that integrates organizational data 
    - Ensure it contains sales data across multiple quarters/years
    - Verify product line categorization
    - Note the column headers and data format
-   - On the list of files in Documents, with the file Selected, Select Copy link in the toolboar, save the link in notepad for use later in the lab
+   - On the list of files in Documents, with the file selected, select **Copy link** in the toolbar, and save the link in Notepad for use later in the lab
 
 4. Open the **Word policy document** and review:
    - Sales procedures and guidelines
    - Policy information that might inform sales decisions
    - Any specific requirements or compliance information
-   - On the list of files in Documents, with the file Selected, Select Copy link in the toolboar, save the link in notepad for use later in the lab
+   - On the list of files in Documents, with the file selected, select **Copy link** in the toolbar, and save the link in Notepad for use later in the lab
 
 #### Create the Sales Revenue Analyst agent
 
-1. Return to [Microsoft 365 Copilot Chat](https://m365.cloud.microsoft/chat/?auth=2&home=1).
+1. Return to [Microsoft 365 Copilot Chat](https://office.com/chat).
 
 2. On the left side pane, select **Agents** to open the **Agent Store**, then select **Create agent** (or the **New agent** card).
 
-3. Paste the following prompt into the **Message Agent Builder** input area and select **Send** (the **Describe** tab appears after your first message):
+3. Paste the following prompt into the **Message Agent Builder** input area and select **Send** (the agent's configuration appears on the right after your first message):
 
    ```
    You are a Sales Revenue Analyst. Your job is to help sales managers track revenue and identify trends across product lines. You understand product hierarchies, time periods (e.g. quarters, fiscal years), and sales metrics. Users can ask questions like 'Graph the sales for the last 2 years with a breakdown per product line and quarter'. You always respond in a friendly and professional tone, aiming to be helpful and insightful.
@@ -401,12 +401,12 @@ Build a sophisticated Sales Revenue Analyst that integrates organizational data 
 
 #### Configure knowledge sources
 
-1. Select the **Configure** tab.
+1. Make sure the right pane shows the **Configure** view (use the drop-down at the top of the pane if it shows **Preview**).
 
 2. Scroll down to the **Knowledge** section:
-    - Under **Knowledge**, Paste the Sales.xlsx URL that you copied earlier in the lab and then select Enter to add the file as knowledge to your agent
+    - Under **Knowledge**, select **Add knowledge**, paste the Sales.xlsx link that you copied earlier into the **Paste a link or search for your data** box, and press **Enter** to add the file as knowledge to your agent
     - Repeat that for the Sales Policy Document.docx
-    - You will see them being added as SharePoint documents in the knowledge section of the agent
+    - You will see them added as SharePoint documents under **Work content** in the **Knowledge** section of the agent
 
    ![Files added to agent knowledge](images/add-files.png)
 
@@ -441,7 +441,7 @@ Build a sophisticated Sales Revenue Analyst that integrates organizational data 
 
 #### Finalize and create
 
-1. Review the **Configure** tab to refine:
+1. Review the **Configure** view to refine:
 
     - Agent name and description
     - Instructions
@@ -453,7 +453,7 @@ Build a sophisticated Sales Revenue Analyst that integrates organizational data 
 
 1. Select **Start chat** to open the agent and start testing.
 
-2. First, test the agent's **knowledge** of your sales policy, copy/paste the following prompt in the Message Copilot area and select **Send**:
+2. First, test the agent's **knowledge** of your sales policy, copy/paste the following prompt in the **Message Sales Revenue Analyst** box and select **Send**:
 
    ```
    What are the key guidelines in our sales policy regarding customer discounts?
@@ -502,7 +502,7 @@ Build a sophisticated Sales Revenue Analyst that integrates organizational data 
    ![Home Appliances sales chart generated directly in the chat](images/sales-data-analysis.png)
 
    > [!NOTE]
-   > In a 30-minute bootcamp delivery, continue with the remaining steps in this subsection only if time permits.
+   > In a 30-minute instructor-led delivery, continue with the remaining steps in this subsection only if time permits.
 
 4. Select **Start a new chat** again, then enter this more complex, multi-part request:
 
@@ -525,7 +525,7 @@ Build a sophisticated Sales Revenue Analyst that integrates organizational data 
 
    ![Generated Excel workbook with sales analysis and charts](images/analysis-workbook.png)
 
-8. Open the agent's **More options** (`...`) menu and select **Edit** to reopen Agent Builder. On the **Configure** tab, open the model selector near the top of the page to set the agent's default response mode:
+8. In the left pane, hover over **Agents** and select the arrow next to it to open your agents list. Hover over **Sales Revenue Analyst**, select **More** (`...`), and then select **Edit** to reopen Agent Builder. In the **Configure** view, open the model selector near the top of the page to set the agent's default response mode:
    - Select **Auto** to let Agent Builder balance speed and depth for each prompt.
    - Select **Quick response** to prefer faster, concise answers by default.
    - Select **Think deeper** to prefer more detailed reasoning by default.
@@ -590,7 +590,7 @@ Add the Sales Opportunities SharePoint list as structured knowledge, validate di
 
 #### Add the Sales Opportunities list as knowledge
 
-1. Open the agent for editing if needed, select the **Configure** tab, and scroll to the **Knowledge** section.
+1. Open the agent for editing if needed (in the left pane, **Agents** > **Sales Revenue Analyst** > **More** (`...`) > **Edit**), make sure the **Configure** view is shown, and scroll to the **Knowledge** section.
 
 2. Select **Add knowledge**.
 
@@ -600,7 +600,7 @@ Add the Sales Opportunities SharePoint list as structured knowledge, validate di
    https://copilotstudiotraining.sharepoint.com/Lists/Sales%20Opportunities/AllItems.aspx
    ```
 
-4. Paste the URL into the knowledge source field, press **Enter**, and wait for the list to be processed.
+4. In the **Add knowledge sources** dialog, paste the URL into the **Paste a link or search for your data** box, press **Enter**, and wait for the list to be processed.
 
    If the URL isn't accepted, select the cloud file picker, choose **Recent lists**, and then select **Sales Opportunities**. If the list isn't shown, open it once in SharePoint or use **More places**, then retry.
 
