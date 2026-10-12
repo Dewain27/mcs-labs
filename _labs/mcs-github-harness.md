@@ -152,7 +152,7 @@ In many delivery tenants the four solutions are already provisioned with the env
     **Any missing?** Import just the missing ones using the procedure below.
 
     > [!TIP]
-    > There is a faster smoke test if you only want to know whether the agent will find them: in Copilot Studio, open any agent, select **Tools → + Add a tool**, and search for `MCP`. The four servers appear in the results if they are loaded. The Solutions list is still the authoritative check, because it also shows you the **version** and unique name. To confirm a server's tools, add it to an agent, select it under **Tools**, and check that **Tool permissions** lists every tool in the table above. For **Asset Telemetry MCP** that means *List assets*, *Get asset status* **and** *Query telemetry*. If a tool is missing, import that server's package from this lab, even though a solution with the same display name and version is already there.
+    > There is a faster smoke test if you only want to know whether the agent will find them: in Copilot Studio, open any agent, select **Tools → + Add a tool**, and search for `MCP`. The four servers appear in the results if they are loaded. The Solutions list is still the authoritative check, because it also shows you the **version** and unique name. To confirm a server's tools, look at its description in the **Add a tool** results: for **Asset Telemetry MCP** it must mention `query_telemetry`, not only `list_assets` and `get_asset_status`. Do not rely on **Tool permissions** alone — it can list *Query telemetry* while the connector's description, which the agent plans from, still names only two tools. If the description is out of date, import this lab's package (or ask your instructor to upgrade the pre-loaded one), even though a solution with the same display name and version is already there.
 
     > [!NOTE]
     > **First visit to make.powerapps.com?** A **Choose your country/region** dialog can appear over the page and blocks the Solutions list behind it. Pick a region and select **Get started** to clear it.
@@ -472,7 +472,11 @@ Observe the loop recovering from a failed tool call, and using the Agent Sandbox
 1. Expand the trace and read what happens.
 
     > [!WARNING]
-    > If the agent replies that it has no history tool, your environment has an Asset Telemetry MCP build without `query_telemetry`. In **Build → Tools**, select **Asset Telemetry MCP**. The **Tool permissions** list must show three tools: *List assets*, *Get asset status* and *Query telemetry*. If only two appear, import `NorthgateEnergyAssetTelemetryMCP_1_0_0_1.zip` from `assets/mcp-servers`, remove the tool from the agent and add it again, then start a **New chat** in Preview.
+    > If the agent replies that it has no history tool and never calls `query_telemetry`, your environment's Asset Telemetry MCP connector was built before that tool existed. This can happen even when **Tool permissions** lists *Query telemetry*: the agent plans from the connector's description, and each agent keeps its own copy of that description from when the tool was added. Refreshing the tool in place, or building a new agent, does not fix it.
+    >
+    > - **Instructor:** import the current Asset Telemetry MCP package (this lab's `NorthgateEnergyAssetTelemetryMCP_1_0_0_1.zip`, or an upgraded `DciAssetTelemetryMCP`) so the connector description names `query_telemetry`.
+    > - **Then, in your agent:** remove **Asset Telemetry MCP** under **Tools**, add it again (reuse the existing connection), select **Save**, and start a **New chat** in Preview.
+    > - **No time to fix the environment?** The instructor demos this use case from a working environment and you continue with Use Case #4.
 
     ![The agent recovering from a range_too_large error by splitting the window](images/uc3-error-recovery.png)
 
