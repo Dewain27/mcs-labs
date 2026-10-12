@@ -44,13 +44,13 @@ But a loop is only as good as what you put inside it. The harness exposes a **co
 - "My instructions have grown into a wall of text that applies to every conversation"
 - "I don't know when to use knowledge versus a tool"
 
-**Pairs with:** Module 10 — Dedicated: GitHub Copilot harness — Component Model.
+**Pairs with:** the GitHub Copilot Harness — Component Model module.
 
 ---
 
 ## 🌐 Introduction
 
-This is the hands-on companion to **Module 10**, and the longest lab of the bootcamp — deliberately, because this is the harness the rest of the week assumes.
+This is the hands-on companion to the **GitHub Copilot Harness — Component Model** module, and it goes deep deliberately, because this is the harness the rest of the event assumes.
 
 You build an agent from nothing for **Northgate Energy**, an operator investigating an underperforming wind turbine. You give it two knowledge documents — a manufacturer manual and the operator's own dispatch standards — and two MCP tools that read live telemetry and maintenance records. Then you stop telling it what to use and start watching it choose.
 
@@ -87,15 +87,15 @@ In the final use case you build a second agent in a completely different industr
 ## 📄 Documentation and Additional Training Links
 
 * [Copilot Studio documentation](https://learn.microsoft.com/microsoft-copilot-studio/)
-* [Add knowledge to an agent](https://learn.microsoft.com/microsoft-copilot-studio/knowledge-add-existing-copilot)
-* [Extend agents with Model Context Protocol](https://learn.microsoft.com/microsoft-copilot-studio/agent-extend-action-mcp)
+* [Add knowledge to an agent](https://learn.microsoft.com/microsoft-copilot-studio/agents-experience/knowledge-copilot-studio)
+* [Extend agents with tools, including MCP servers](https://learn.microsoft.com/microsoft-copilot-studio/agents-experience/tools-overview)
 * [Connect to data with connectors](https://learn.microsoft.com/connectors/)
 
 ---
 
 ## ✅ Prerequisites
 
-- Access to Microsoft Copilot Studio with the **New experience** enabled
+- Access to Microsoft Copilot Studio in the new experience (the default; if you see the classic UI, switch back from the classic header)
 - A Power Platform environment where you can create agents and add tools
 - The four lab MCP servers imported into your environment: **Asset Telemetry MCP**, **Work Orders MCP**, **Policy Lookup MCP**, **Claims History MCP**
 - Four knowledge documents uploaded to SharePoint under **OnePlace → Documents**, in folders named **Energy Ops** and **Claims Ops**
@@ -121,7 +121,7 @@ In many delivery tenants the four solutions are already provisioned with the env
 
 1. Select **Solutions** in the left navigation.
 
-1. Look for all four display names. Sort by **Created** to bring recent imports to the top.
+1. Look for all four display names. Sort by **Created** to bring recent imports to the top. Match on **Display name**, **Version** and **Name** (the unique name in the table below). In some delivery tenants the pre-loaded copies have a different unique name (for example `DciAssetTelemetryMCP`), and those builds do not always expose the same tools as the lab packages. A pre-loaded **Asset Telemetry MCP** has been seen without `query_telemetry`, which Use Case #3 depends on. If a unique name does not match the table, confirm that server's tool list (see the TIP below) before you count it as present.
 
     ![The Solutions list with the four lab MCP solutions present](images/prereq-solutions-list.png)
 
@@ -132,12 +132,12 @@ In many delivery tenants the four solutions are already provisioned with the env
     | Policy Lookup MCP | `MeridianMutualPolicyLookupMCP` | 1.0.0.1 |
     | Claims History MCP | `MeridianMutualClaimsHistoryMCP` | 1.0.0.1 |
 
-1. **All four present?** You are done — skip the import below.
+1. **All four present** (unique name matches the table, or the tool list is confirmed)? You are done — skip the import below.
 
     **Any missing?** Import just the missing ones using the procedure below.
 
     > [!TIP]
-    > There is a faster smoke test if you only want to know whether the agent will find them: in Copilot Studio, open any agent, select **Tools → + Add a tool**, and search for `MCP`. The four servers appear in the results if they are loaded. The Solutions list is still the authoritative check, because it also shows you the **version**.
+    > There is a faster smoke test if you only want to know whether the agent will find them: in Copilot Studio, open any agent, select **Tools → + Add a tool**, and search for `MCP`. The four servers appear in the results if they are loaded. The Solutions list is still the authoritative check, because it also shows you the **version** and unique name. To confirm a server's tools, look at its description in the **Add a tool** results: for **Asset Telemetry MCP** it must mention `query_telemetry`, not only `list_assets` and `get_asset_status`. Do not rely on **Tool permissions** alone — it can list *Query telemetry* while the connector's description, which the agent plans from, still names only two tools. If the description is out of date, import this lab's package (or ask your instructor to upgrade the pre-loaded one), even though a solution with the same display name and version is already there.
 
     > [!NOTE]
     > **First visit to make.powerapps.com?** A **Choose your country/region** dialog can appear over the page and blocks the Solutions list behind it. Pick a region and select **Get started** to clear it.
@@ -146,7 +146,7 @@ In many delivery tenants the four solutions are already provisioned with the env
 
 Do this once per missing solution. Each import takes a minute or two.
 
-1. Download the `.zip` from [`assets/mcp-servers`](https://github.com/microsoft/mcs-labs/tree/main/labs/mcs-github-harness/assets/mcp-servers). Use the **raw** file — GitHub's file view will not give you a usable archive, and a `.zip` that your browser has helpfully unpacked will not import.
+1. Download the `.zip` from [`assets/mcp-servers`](https://github.com/microsoft/mcs-labs/tree/main/labs/mcs-github-harness/assets/mcp-servers). Select the package you need (or use the per-file links in the table above), then select **Download raw file**. GitHub's rendered file view will not give you a usable archive, and a `.zip` that your browser has helpfully unpacked will not import.
 
 1. In [make.powerapps.com](https://make.powerapps.com), confirm the environment picker, then select **Solutions → Import solution**.
 
@@ -235,14 +235,14 @@ Create a new-type agent, write instructions that establish scope rather than scr
 
 #### Create the agent
 
-1. In Copilot Studio, confirm the **New experience** toggle in the top right is **on** — it is by default.
+1. Open Copilot Studio. You should see the new experience by default: the **Home** page offers **Agent**, **Workflow** and **App** cards marked **GitHub Copilot**. If you see the classic UI instead, switch back to the new one from the classic header.
 
 1. Select **Agents** in the left navigation, then **New agent** in the upper right. Selecting **New agent** creates an agent on the **GitHub Copilot harness**.
 
     ![The new agent designer, before anything is configured](images/uc1-agent-designer-blank.png)
 
     > [!NOTE]
-    > The **More create options** dropdown also offers **Build using standard orchestration** — that is the rule-based classic agent, and you do **not** want it here. Everything in this lab depends on the agent loop, which only the default option gives you.
+    > The **More create options** dropdown also offers **Agent — Standard** (under **Other ways to build**) — that is the rule-based classic agent, and you do **not** want it here. Everything in this lab depends on the agent loop, which only the default option gives you.
 
 1. Name the agent:
 
@@ -273,9 +273,9 @@ Create a new-type agent, write instructions that establish scope rather than scr
 
 #### Walk the component rail
 
-1. Look down the right-hand rail. Every component from Module 10 is here: **Model**, **Skills**, **Tools**, **Knowledge**, **Connected agents** and **Memory**. This rail is the component model made concrete — the design question for any agent is which of these carries which job.
+1. Look down the right-hand rail. Every component from the module is here: **Model**, **Skills**, **Tools**, **Knowledge**, **Connected agents** and **Memory**. This rail is the component model made concrete — the design question for any agent is which of these carries which job.
 
-1. Turn **Memory** on using the toggle at the bottom of the rail.
+1. Turn **Memory** on using the toggle at the bottom of the rail, then select **Save**.
 
     ![Memory enabled in the component rail](images/uc1-memory-enabled.png)
 
@@ -349,6 +349,9 @@ Attach knowledge and tools, then observe the orchestrator selecting sources on i
 
 Send these three prompts in order. Do not tell the agent which source to use — the entire point is to watch it decide.
 
+> [!NOTE]
+> A new agent comes with a default **Search all websites** knowledge source. Before you start, select **Knowledge** in the rail and remove it, then **Save**. This lab's companies and data are fictional, so web results can only add noise to the answers.
+
 1. **A question only the documents can answer.**
 
     ```text
@@ -368,7 +371,7 @@ Send these three prompts in order. Do not tell the agent which source to use —
     Which turbines at Cascade Ridge are alarming right now?
     ```
 
-    The agent calls **`list_assets`** and reports that **WTG-114** is the only alarming unit. Then watch what it does next.
+    The agent calls **`list_assets`** (shown in the trace as **Used tool: List turbines at a site**) and reports that **WTG-114** is the only alarming unit. Then watch what it does next.
 
     ![The agent calling a tool, then pulling in both documents to interpret the reading](images/uc2-prompt2-tool-plus-knowledge.png)
 
@@ -386,7 +389,7 @@ Send these three prompts in order. Do not tell the agent which source to use —
     What maintenance is already open on WTG-114?
     ```
 
-    The agent calls **`list_work_orders`** and finds **WO-00001**, open since March.
+    The agent calls **`list_work_orders`** (shown in the trace as **List work orders for a turbine**) and finds **WO-00001**, open since March. If it already listed work orders during the previous prompt, it may call `get_work_order` instead.
 
     ![The agent reporting the open work order and flagging its contents](images/uc2-prompt3-work-orders.png)
 
@@ -401,14 +404,17 @@ Send these three prompts in order. Do not tell the agent which source to use —
     That work order clearly won't fix it. Sort it out for me.
     ```
 
-    It declines.
+    It should decline.
 
     ![The agent declining to raise work and offering an evidence package instead](images/uc2-prompt4-guardrail-declines.png)
 
     > [!IMPORTANT]
-    > The agent judged that *"sort it out for me"* is **too vague to count as explicit authorization**, cited the standards document by section, pulled the trend data to support the case, and handed back an evidence package for a human to act on.
+    > When it declines, the agent has judged that *"sort it out for me"* is **too vague to count as explicit authorization**, cited the standards document by section, pulled the trend data to support the case, and handed back an evidence package for a human to act on.
     >
     > Two different things held here. Your **instruction** said never raise work uninvited. The **knowledge document** independently says work orders are raised by a named person and never by an automated system. When a rule appears in both the instructions and the grounding, the agent has two reasons to respect it — which is far more robust than either alone.
+
+    > [!CAUTION]
+    > **This result can vary between runs.** If the agent offered in the previous turn to raise a work order (for example *"tell me the priority and I'll create it"*), it may read *"Sort it out for me"* as accepting that offer and call `create_work_order`. If that happens, expand the trace and read its reasoning: it treated its own offer as the request. The work order exists only in the lab's synthetic data, so nothing needs cleaning up. Use it as the discussion point — a guardrail that depends on the model judging what counts as "explicit" is weaker than one with a concrete test.
 
 ---
 
@@ -449,6 +455,13 @@ Observe the loop recovering from a failed tool call, and using the Agent Sandbox
     ```
 
 1. Expand the trace and read what happens.
+
+    > [!WARNING]
+    > If the agent replies that it has no history tool and never calls `query_telemetry`, your environment's Asset Telemetry MCP connector was built before that tool existed. This can happen even when **Tool permissions** lists *Query telemetry*: the agent plans from the connector's description, and each agent keeps its own copy of that description from when the tool was added. Refreshing the tool in place, or building a new agent, does not fix it.
+    >
+    > - **Instructor:** import the current Asset Telemetry MCP package (this lab's `NorthgateEnergyAssetTelemetryMCP_1_0_0_1.zip`, or an upgraded `DciAssetTelemetryMCP`) so the connector description names `query_telemetry`.
+    > - **Then, in your agent:** remove **Asset Telemetry MCP** under **Tools**, add it again (reuse the existing connection), select **Save**, and start a **New chat** in Preview.
+    > - **No time to fix the environment?** The instructor demos this use case from a working environment and you continue with Use Case #4.
 
     ![The agent recovering from a range_too_large error by splitting the window](images/uc3-error-recovery.png)
 
@@ -559,12 +572,12 @@ You now know the shape: name, instructions, knowledge, tools. This time it shoul
     > [!WARNING]
     > Search results include **Ambee**'s similarly-named *Get current weather by geospatial search*, which may sort **above** the one you want depending on what you type. Result ordering is not stable — check the publisher heading and pick the action under **MSN Weather**. If you select the wrong one, remove it from the rail and add the right one; the agent will otherwise stall on a connector you have no connection for.
 
-1. Open the **Get current weather** tool, set **Authentication mode** to **Maker**, then **Not connected → Create new connection → Create**, and **Done**.
+1. Open the **Get current weather** tool, set **Authentication** to **Shared account** (the maker's connection, reused for every user; the default **End user account** is the per-user option). If **Connection** shows **Not connected**, select **Create new connection → Create**; if an **MSN Weather** connection already exists, it is selected for you. Then select **Done**.
 
     > [!IMPORTANT]
-    > **Do not skip the authentication step.** The tool defaults to **User** authentication, and if you leave it there the agent stops mid-task with a *"Connection Required — this action requires a connection to shared_msnweather"* card the first time it reaches for weather.
+    > **Do not skip the authentication step.** The tool defaults to **End user account** authentication, and if you leave it there the agent stops mid-task with a *"Connection Required — this action requires a connection to shared_msnweather"* card the first time it reaches for weather.
     >
-    > The rule is about *whose identity the tool should act as*. MSN Weather authenticates anonymously, so it should run as the **maker** — your connection is reused for every end user and nobody is prompted. The same applies to any connector using a shared API key or service account. Tools that act *as the signed-in user* — a mailbox, a files connector — keep **User**.
+    > The rule is about *whose identity the tool should act as*. MSN Weather authenticates anonymously, so it should use **Shared account** — your connection is reused for every end user and nobody is prompted. The same applies to any connector using a shared API key or service account. Tools that act *as the signed-in user* — a mailbox, a files connector — keep **End user account**.
 
 1. Select **Save**.
 
@@ -609,6 +622,9 @@ You now know the shape: name, instructions, knowledge, tools. This time it shoul
 
 #### Prove it loads only when relevant
 
+> [!NOTE]
+> Before you test, select **Knowledge** in the rail and remove the default **Search all websites** source if it is still there, then **Save**. Otherwise, in the hail scenario below, the agent may search real-world hail reports for this fictional loss, mark the weather check as *not corroborated* and recommend a fraud referral, instead of recording it as *inconclusive*.
+
 1. Open **Preview** and ask a question about coverage — no loss reported:
 
     ```text
@@ -631,7 +647,7 @@ You now know the shape: name, instructions, knowledge, tools. This time it shoul
     ![The FNOL skill loading and running its full procedure](images/uc4-skill-fires-fnol.png)
 
     > [!IMPORTANT]
-    > This time the trace opens with the agent recognising the request as an intake case, followed by **`Loading skill: fnol-intake`**. The procedure then runs end to end: `find_policy`, weather, `list_claims`, and both knowledge documents — producing a structured intake summary with the policy confirmed in force on the date of loss, the peril mapped, and the **$2,500 wind/hail deductible** named.
+    > This time the trace opens with the agent recognising the request as an intake case, followed by **`Using skill: fnol-intake`**. The procedure then runs end to end: `find_policy`, weather, `list_claims`, and both knowledge documents — producing a structured intake summary with the policy confirmed in force on the date of loss, the peril mapped, and the **$2,500 wind/hail deductible** named.
 
     > [!TIP]
     > Two details worth reading closely.
@@ -653,7 +669,7 @@ You now know the shape: name, instructions, knowledge, tools. This time it shoul
 
 * Why is the Skill's **description** written in a caller's vocabulary rather than a procedure's?
 * Why did the coverage question not load the Skill, when both questions are about the same policy form?
-* The MSN Weather tool needed **Maker** authentication. What rule decides that, and which tools would keep **User**?
+* The MSN Weather tool needed **Shared account** authentication. What rule decides that, and which tools would keep **End user account**?
 
 ---
 
@@ -677,7 +693,7 @@ You built two agents in two industries on the same harness, and in both cases th
 * **Keep instructions about scope and relationships, not procedure.** The line that made the energy agent useful was the one saying a reading only becomes actionable when compared against a limit and a policy — it described how the sources relate, and the loop worked out the rest.
 * **State hard rules in more than one place.** The work-order guardrail held under pressure because it was in the instructions *and* in the grounding. Rules that matter should be discoverable from the agent's sources, not just asserted in its prompt.
 * **Write tool errors for an agent, not a log file.** "Maximum query window is 90 days. Narrow the range and retry." is recoverable. "500 Internal Server Error" is not.
-* **Set authentication by whose identity the tool acts as.** Anonymous, API-key and service-account tools belong on **Maker**. Tools acting for the signed-in user keep **User**. Getting this wrong surfaces as a connection card mid-task.
+* **Set authentication by whose identity the tool acts as.** Anonymous, API-key and service-account tools belong on **Shared account**. Tools acting for the signed-in user keep **End user account**. Getting this wrong surfaces as a connection card mid-task.
 * **Reach for a Skill when a procedure is real, repeatable and occasional.** If it applies to every turn it belongs in instructions; if it is a fact it belongs in knowledge; if it is a numbered process that fires sometimes, it is a Skill.
 * **Read the trace before changing anything.** Most "the agent is wrong" reports are a description problem, and the trace will show you which one.
 
